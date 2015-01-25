@@ -12,10 +12,25 @@ class WordChainer
     until @current_words.empty?
       new_current_words = explore_current_words(@current_words)
       @current_words = new_current_words
+      break if @all_seen_words.keys.to_set.include?(target)
     end
+
+    build_path(target)
   end
 
   private
+
+  def build_path(target)
+    path = [target]
+
+    until @all_seen_words[target].nil?
+      next_target = @all_seen_words[target]
+      path << next_target unless next_target.nil?
+      target = next_target
+    end
+
+    path
+  end
 
   def explore_current_words(current_words)
     [].tap do |new_current_words|
@@ -29,7 +44,6 @@ class WordChainer
     end.each do |word|
       puts "#{word} came from #{@all_seen_words[word]}"
     end
-
   end
 
   def adjacent_words(word)
