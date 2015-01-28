@@ -107,22 +107,21 @@ class Board
     captured << self[end_pos] if !self[end_pos].nil?
 
     self[end_pos] = self[start_pos]
+    
     self[start_pos] = nil
 
     self[end_pos].pos = end_pos
   end
 
   def move!(start_pos, end_pos)
-
     self[end_pos] = self[start_pos]
+
     self[start_pos] = nil
 
     self[end_pos].pos = end_pos
   end
 
   def dup
-    #deep_dup of the board
-
     dupped_board = Board.new
 
     each_pos do |pos|
@@ -133,42 +132,33 @@ class Board
     dupped_board
   end
 
-  def render
-    # creates visual representation. i don't know if you saw Joe and my
-    # minesweeper but it was hot. i got some tricks up my sleeve
-  end
-
   def display
-    print render
+    render.each do |line|
+      puts line
+    end
+
+    nil
   end
 
-  # Below are convenience methods
 
   def [](pos)
     y, x = pos
 
-
     board[y][x]
-    # method to make calling positions easier. acts as attr_reader
   end
 
   def []=(pos, value)
-    # method to make assigning positions easier
     y, x = pos
 
     board[y][x] = value
-
   end
 
   def each_pos(&prc)
-    # joe and i made this for minesweeper - was SO useful for the many times we had to do nested loops to access a square the the @board
-
     board.each_index do |row|
       board[row].each_index do |col|
         prc.call([row, col])
       end
     end
-
   end
 
   private
@@ -184,5 +174,29 @@ class Board
 
       king_pos
     end
+
+    def render_row(row)
+      row.map do |piece|
+        if piece.nil?
+          " "
+        else
+          piece.render
+        end
+      end
+    end
+
+    def render
+      rendered_rows = []
+
+      board.each_with_index do |row, index|
+        rendered_rows << [(8 - index), " |", render_row(row)].join(" ")
+      end
+
+      rendered_rows << [" " * 4].concat(Array.new(8, "-")).join(" ")
+      rendered_rows << [" " * 4].concat(("a".."h").to_a).join(" ")
+
+      rendered_rows
+    end
+
 
 end

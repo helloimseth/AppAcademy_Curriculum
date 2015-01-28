@@ -13,13 +13,15 @@ class Piece
 
 
   def valid_moves
+    valid_moves = moves
 
-      valid_moves = moves
+    valid_moves.delete_if {|move| move_into_check?(move) }
 
-      valid_moves.delete_if {|move| move_into_check?(move) }
+    valid_moves
+  end
 
-      valid_moves
-
+  def render
+    return self.class::SYMBOL
   end
 
 
@@ -68,12 +70,14 @@ end
 class Bishop < SlidingPiece
 
   DELTAS = [[-1, 1], [-1, -1], [1, -1], [1, 1]]
+  SYMBOL = "B"
 
 end
 
 class Rook < SlidingPiece
 
   DELTAS = [[0, 1], [0, -1], [-1, 0], [1, 0]]
+  SYMBOL = "R"
 
 end
 
@@ -82,6 +86,7 @@ class Queen < SlidingPiece
   DELTAS = [[0, 1], [0, -1], [-1, 0],
             [1, 0], [-1, 1], [-1 , -1],
             [1, -1], [1, 1]]
+  SYMBOL = "Q"
 
 end
 
@@ -112,6 +117,7 @@ class King < SteppingPiece
 
     DELTAS = [[0, 1], [0 , -1], [-1, 0], [1, 0], [-1, 1],
     [-1 , -1], [1, -1], [1, 1]]
+    SYMBOL = "K"
 
 end
 
@@ -120,10 +126,14 @@ class Knight < SteppingPiece
 
   DELTAS = [[2, 1], [2 , -1], [-1, 2], [1, 2],
   [-2, 1], [-2 , -1], [-1, -2], [1, -2]]
+  SYMBOL = "N"
 
 end
 
 class Pawn < Piece
+
+  SYMBOL = "P"
+
   attr_reader :first_move
 
   def initialize(starting_pos, board, color)
