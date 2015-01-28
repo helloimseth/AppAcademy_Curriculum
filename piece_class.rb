@@ -13,9 +13,7 @@ class Piece
 
 
   def valid_moves
-    valids = moves
-
-    valids.delete_if { |move| move_into_check?(move) }
+    moves.delete_if { |move| move_into_check?(move) }
   end
 
   def render
@@ -28,9 +26,7 @@ class Piece
 
     dupped_board.move!(pos, end_pos)
 
-    return true if dupped_board.in_check?(color)
-
-    false
+    dupped_board.in_check?(color)
   end
 
 
@@ -141,16 +137,15 @@ class Pawn < Piece
     possible_moves = []
 
     if color == :black
-      left_diag = [pos[0] + 1, pos[1] - 1]
-      right_diag = [pos[0] + 1, pos[1] + 1]
-      forward = [pos[0] + 1, pos[1]]
-      slide_forward = [pos[0] + 2, pos[1]]
+      dir = 1
     else
-      left_diag = [pos[0] - 1, pos[1] - 1]
-      right_diag = [pos[0] - 1, pos[1] + 1]
-      forward = [pos[0] - 1, pos[1]]
-      slide_forward = [pos[0] - 2, pos[1]]
+      dir = -1
     end
+
+    left_diag = [pos[0] + dir, pos[1] - 1]
+    right_diag = [pos[0] + dir, pos[1] + 1]
+    forward = [pos[0] + dir, pos[1]]
+    slide_forward = [pos[0] + 2 * dir, pos[1]]
 
     if first_move && board[forward].nil? && board[slide_forward].nil?
       possible_moves << slide_forward

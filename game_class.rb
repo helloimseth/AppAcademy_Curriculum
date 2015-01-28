@@ -3,9 +3,9 @@ require_relative 'board_class.rb'
 
 class Game
 
-  def initialize(white_player, black_player)
-    @white = white_player
-    @black = black_player
+  def initialize#(white_player, black_player)
+  #   @white = white_player
+  #   @black = black_player
     @board = Board.new
   end
 
@@ -23,8 +23,9 @@ class Game
 
       @board.move(start_pos, end_pos)
     end
-
+    @board.display
     puts "Checkmate!"
+
   end
 
   def get_input

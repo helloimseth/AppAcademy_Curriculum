@@ -70,8 +70,8 @@ class Board
     king_position = king_position(color)
     in_check = false
 
-    each_pos do |pos|
-      if !self[pos].nil? && self[pos].color != color
+    each_piece do |pos|
+      if self[pos].color != color
         in_check = true if self[pos].moves.include?(king_position)
       end
     end
@@ -84,13 +84,9 @@ class Board
 
     check_mate = true
 
-    each_pos do |pos|
-      if !self[pos].nil? && self[pos].color == color
-        if self[pos].valid_moves.count > 0
-          check_mate = false
-          p pos
-          p self[pos].valid_moves
-        end
+    each_piece do |pos|
+      if self[pos].color == color && self[pos].valid_moves.count > 0
+        check_mate = false
       end
     end
 
@@ -110,11 +106,7 @@ class Board
 
     captured << self[end_pos] if !self[end_pos].nil?
 
-    self[end_pos] = self[start_pos].dup
-
-    self[start_pos] = nil
-
-    self[end_pos].pos = end_pos
+    move!(start_pos, end_pos)
   end
 
   def move!(start_pos, end_pos)
@@ -161,6 +153,10 @@ class Board
     board[y][x] = value
   end
 
+  def each_piece(&prc)
+    each_pos { |pos| prc.call(pos) unless self[pos].nil? }
+  end
+
   def each_pos(&prc)
     board.each_index do |row|
       board[row].each_index do |col|
@@ -169,18 +165,15 @@ class Board
     end
   end
 
+
   private
 
     def king_position(color)
-      king_pos = nil
-
       each_pos do |pos|
         if self[pos].class == King && self[pos].color == color
-          king_pos = pos
+          return pos
         end
       end
-
-      king_pos
     end
 
     def render_row(row)
