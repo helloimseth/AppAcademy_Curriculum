@@ -11,25 +11,14 @@ class Piece
     @color = color
   end
 
-  def moves
-    # Would be called in the implented sublcass #moves method using
-    # Super. in rethinking this, i'd say that this method would weed out those
-    #moves which are off the board's bounds because that doesn't take more logic than a #between? method call
-  end
 
   def valid_moves
-    # calls the #moves method. I think it makes sense that it would be called
-    # by the subclasses, though because the functionality would be identical for SteppingPieces and SlidingPieces it stays up here.
 
-    # I think the implementation is something like:
-    #   - Iterate through the moves array (which is now an array of all
-    #    places on the board the piece could move to if there were no
-    #    other pieces on the board)
-    #   - for each position in the moves array, ask if it's valid via
-    #     the is_valid?(pos) helper method below
-    #   - if it is, shovel it into a new array that gets return
+      valid_moves = moves
 
+      valid_moves.delete_if {|move| move_into_check?(move) }
 
+      valid_moves
 
   end
 

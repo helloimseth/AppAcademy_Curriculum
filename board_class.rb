@@ -79,14 +79,18 @@ class Board
     in_check
   end
 
-
-
   def check_mate?(color)
-    # if in_check? == true, this will check if the Kings#valid_moves.count == 0
-    # the hard part is it also needs to see if any of its color can block the
-    # attacker. This will require a helper method returns an array of the
-    # squares that could be used to block and then query if any of the
-    # same-colored pieces have one of those squares in their valid_moves
+    return false unless in_check?(color)
+
+    check_mate = true
+
+    each_pos do |pos|
+      if !self[pos].nil? && self[pos].color == color
+        check_mate = false if self[pos].valid_moves.count > 0
+      end
+    end
+
+    check_mate
   end
 
   def move(start_pos, end_pos)
@@ -97,7 +101,7 @@ class Board
     end
 
     if self[start_pos].move_into_check?(end_pos)
-      raise "That would put you into check!" 
+      raise "That would put you into check!"
     end
 
     captured << self[end_pos] if !self[end_pos].nil?
