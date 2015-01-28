@@ -91,8 +91,9 @@ class SteppingPiece < Piece
       next_pos = [next_x, next_y]
 
       if next_pos.all? { |coord| coord.between?(0,7) }
-        if (!board[next_pos].nil? && board[next_pos].color != color) ||
-                                                        board[next_pos].nil?
+        if (!board[next_pos].nil? && board[next_pos].color != color)
+          possible_moves << [next_x, next_y]
+        elsif board[next_pos].nil?
           possible_moves << [next_x, next_y]
         end
       end
