@@ -3,14 +3,16 @@ require_relative 'game_class.rb'
 
 class Board
 
+  attr_reader :captured, :board
+
   def initialize
     @board = Array.new(8) {Array.new(8)}
     place_pieces
+    @captured = []
   end
 
   def place_pieces
     [[0,0],[0,7],[7,0],[7,7]].each do |pos|
-      p pos
       if pos[0] == 0
         self[pos] = Rook.new(pos, self, :black)
       else
@@ -63,11 +65,21 @@ class Board
 
   end
 
+
   def in_check?(color)
-    # straight copy from git hub: (1) finding the position of the king
-    # on the board then (2) seeing if any of the opposing pieces can
-    # move to that position
+    king_position = king_position(color)
+    in_check = false
+
+    each_pos do |pos|
+      if !self[pos].nil? && self[pos].color != color
+        in_check = true if self[pos].moves.include?(king_position)
+      end
+    end
+
+    in_check
   end
+
+
 
   def check_mate?(color)
     # if in_check? == true, this will check if the Kings#valid_moves.count == 0
@@ -78,9 +90,15 @@ class Board
   end
 
   def move(start_pos, end_pos)
-    # moves the piece in start_pos to end_pos and raises exception if
-    # again from git hub: (a) there is no piece at start or (b) the
-    # piece cannot move to end_pos.
+    raise "You chose an empty square!" if self[start_pos].nil?
+    unless self[start_pos].moves.include?(end_pos)
+      raise "That piece can't move like that!"
+    end
+
+    captured << self[end_pos] if !self[end_pos].nil?
+
+    self[end_pos] = self[start_pos]
+    self[start_pos] = nil
   end
 
   def dup
@@ -102,7 +120,7 @@ class Board
     y, x = pos
 
 
-    @board[y][x]
+    board[y][x]
     # method to make calling positions easier. acts as attr_reader
   end
 
@@ -110,19 +128,33 @@ class Board
     # method to make assigning positions easier
     y, x = pos
 
-    @board[y][x] = value
+    board[y][x] = value
 
   end
 
-  def each_square(&prc)
+  def each_pos(&prc)
     # joe and i made this for minesweeper - was SO useful for the many times we had to do nested loops to access a square the the @board
 
-    @board.each do |row|
+    board.each do |row|
       row.each do |col|
-        prc.call(row, col)
+        prc.call([row, col])
       end
     end
 
   end
+
+  private
+
+    def king_position(color)
+      king_pos = nil
+
+      each_pos do |pos|
+        if self[pos].class == King && self[pos].color == color
+          king_pos = pos
+        end
+      end
+
+      king_pos
+    end
 
 end
