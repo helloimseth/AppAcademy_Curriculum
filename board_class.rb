@@ -86,7 +86,11 @@ class Board
 
     each_pos do |pos|
       if !self[pos].nil? && self[pos].color == color
-        check_mate = false if self[pos].valid_moves.count > 0
+        if self[pos].valid_moves.count > 0
+          check_mate = false
+          p pos
+          p self[pos].valid_moves
+        end
       end
     end
 
@@ -106,7 +110,7 @@ class Board
 
     captured << self[end_pos] if !self[end_pos].nil?
 
-    self[end_pos] = self[start_pos]
+    self[end_pos] = self[start_pos].dup
 
     self[start_pos] = nil
 
@@ -114,7 +118,7 @@ class Board
   end
 
   def move!(start_pos, end_pos)
-    self[end_pos] = self[start_pos]
+    self[end_pos] = self[start_pos].dup
 
     self[start_pos] = nil
 
@@ -125,8 +129,12 @@ class Board
     dupped_board = Board.new
 
     each_pos do |pos|
-      dupped_board[pos] = self[pos]
-      dupped_board[pos].board = dupped_board unless self[pos].nil?
+      if self[pos].nil?
+        dupped_board[pos] = nil
+      else
+        dupped_board[pos] = self[pos].dup
+        dupped_board[pos].board = dupped_board
+      end
     end
 
     dupped_board

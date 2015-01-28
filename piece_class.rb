@@ -13,11 +13,9 @@ class Piece
 
 
   def valid_moves
-    valid_moves = moves
+    valids = moves
 
-    valid_moves.delete_if {|move| move_into_check?(move) }
-
-    valid_moves
+    valids.delete_if { |move| move_into_check?(move) }
   end
 
   def render

@@ -15,23 +15,16 @@ class Game
     until @board.check_mate?(:white) || @board.check_mate?(:black)
       @board.display
 
-      input  = get_input
+      start_pos, end_pos = get_input
 
-      start_pos = input[0]
-      end_pos = input[1]
-      
       start_pos = parse_input(start_pos)
 
-
       end_pos = parse_input(end_pos)
-
 
       @board.move(start_pos, end_pos)
     end
 
-    # until checkmate or input == draw? - one player could propose a draw
-    # and the other could approve? that seems super chessy
-
+    puts "Checkmate!"
   end
 
   def get_input
