@@ -2,7 +2,8 @@ require_relative 'board_class.rb'
 require_relative 'game_class.rb'
 
 class Piece
-  attr_reader :pos, :board, :color
+  attr_reader :color
+  attr_accessor :board, :pos
 
   def initialize(starting_pos, board, color)
     @pos = starting_pos
@@ -27,14 +28,23 @@ class Piece
     #   - for each position in the moves array, ask if it's valid via
     #     the is_valid?(pos) helper method below
     #   - if it is, shovel it into a new array that gets return
+
+
+
   end
+
+
 
   protected # => want it to be accessible from subclasses
 
-  def is_valid?(pos)
-    # for the receiving position, make a dup of the board using a board dup method we'll create. ask if there's a piece of the same color in that place. If so, return false
-    #
-    # something to think about: how to we ask for sliding pieces if there are any pieces BETWEEN the start and end positions.
+  def move_into_check?(end_pos)
+    dupped_board = board.dup
+
+    dupped_board.move!(pos, end_pos)
+
+    return true if dupped_board.in_check?(color)
+
+    false
   end
 
 

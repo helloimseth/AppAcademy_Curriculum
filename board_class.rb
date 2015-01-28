@@ -91,18 +91,42 @@ class Board
 
   def move(start_pos, end_pos)
     raise "You chose an empty square!" if self[start_pos].nil?
+
     unless self[start_pos].moves.include?(end_pos)
       raise "That piece can't move like that!"
+    end
+
+    if self[start_pos].move_into_check?(end_pos)
+      raise "That would put you into check!" 
     end
 
     captured << self[end_pos] if !self[end_pos].nil?
 
     self[end_pos] = self[start_pos]
     self[start_pos] = nil
+
+    self[end_pos].pos = end_pos
+  end
+
+  def move!(start_pos, end_pos)
+
+    self[end_pos] = self[start_pos]
+    self[start_pos] = nil
+
+    self[end_pos].pos = end_pos
   end
 
   def dup
     #deep_dup of the board
+
+    dupped_board = Board.new
+
+    each_pos do |pos|
+      dupped_board[pos] = self[pos]
+      dupped_board[pos].board = dupped_board unless self[pos].nil?
+    end
+
+    dupped_board
   end
 
   def render
@@ -135,8 +159,8 @@ class Board
   def each_pos(&prc)
     # joe and i made this for minesweeper - was SO useful for the many times we had to do nested loops to access a square the the @board
 
-    board.each do |row|
-      row.each do |col|
+    board.each_index do |row|
+      board[row].each_index do |col|
         prc.call([row, col])
       end
     end
