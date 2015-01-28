@@ -47,22 +47,21 @@ class SlidingPiece < Piece
     possible_moves = []
 
     self.class::DELTAS.each do |(x, y)|
-      next_x, next_y  = (@pos[0] + x), (@pos[1] + y)
+      next_x, next_y  = (pos[0] + x), (pos[1] + y)
       next_pos = [next_x, next_y]
 
-
       until next_pos.any? { |coord| !coord.between?(0,7) } ||
-        (!@board[next_pos].nil? && @board[next_pos].color == @color)
+        (!board[next_pos].nil? && board[next_pos].color == color)
 
         possible_moves << next_pos
 
+        break unless board[next_pos].nil?
+
         next_pos = [(next_pos[0] + x), (next_pos[1] + y)]
       end
-
-
     end
 
-    possible_moves
+    possible_moves.sort
   end
 
 end
@@ -90,21 +89,19 @@ end
 class SteppingPiece < Piece
 
   def moves
-    # does a similar thing except this can just fill with an each loop #
-    # over the sublcasses #move_ can be smaller because each
-    # can only take one step.
     possible_moves = []
 
     self.class::DELTAS.each do |(x, y)|
-      next_x, next_y  = (@pos[0] + x), (@pos[1] + y)
+      next_x, next_y  = (pos[0] + x), (pos[1] + y)
       next_pos = [next_x, next_y]
 
-      if next_pos.all? { |coord| coord.between?(0,7) }
+      if next_pos.all? { |coord| coord.between?(0,7) } ||
+        (!board[next_pos].nil? && board[next_pos].color != color)
         possible_moves << [next_x, next_y]
       end
     end
 
-    possible_moves
+    possible_moves.sort
   end
 
 end
@@ -126,24 +123,42 @@ class Knight < SteppingPiece
 end
 
 class Pawn < Piece
+  attr_reader :first_move
 
-  # def initialize
-  #   @first_move = false # because it has different behavior on first move
-  # end
+  def initialize(starting_pos, board, color)
+    super(starting_pos, board, color)
+    @first_move = true # because it has different behavior on first move
 
-  def move
-    # i realized if we do this implementation, pawn would be its
-    # own subclass, which makes sense because they're generally
-    # they're own thing. so it can have its own move method
-    #
-    # if @first_move == false, deltas can be:
-    # [[0, 2], [0, 1]]
-    # if can capture
-    # can move diagonally if it has opportunity to capture
-    # else
-    # [[0,1]] => I still nested the array in another array
-    # the moves method is going treat the result of every move_dirs
-    # as an array of arrays
+  end
+
+  def moves
+    possible_moves = []
+
+    if color == :black
+      left_diag = [pos[0] + 1, pos[1] - 1]
+      right_diag = [pos[0] + 1, pos[1] + 1]
+      forward = [pos[0] + 1, pos[1]]
+      slide_forward = [pos[0] + 2, pos[1]]
+    else
+      left_diag = [pos[0] - 1, pos[1] - 1]
+      right_diag = [pos[0] - 1, pos[1] + 1]
+      forward = [pos[0] - 1, pos[1]]
+      slide_forward = [pos[0] - 2, pos[1]]
+    end
+
+    if first_move && board[forward].nil? && board[slide_forward].nil?
+      possible_moves << slide_forward
+    end
+
+    if board[forward].nil?
+      possible_moves << forward
+    elsif !board[left_diag].nil?
+      possible_moves << left_diag
+    elsif !board[right_diag].nil?
+      possible_moves << right_diag
+    end
+
+    possible_moves.sort
   end
 
 end

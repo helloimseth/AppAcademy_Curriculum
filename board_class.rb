@@ -99,18 +99,18 @@ class Board
   # Below are convenience methods
 
   def [](pos)
-    x, y = pos
+    y, x = pos
 
 
-    @board[x][y]
+    @board[y][x]
     # method to make calling positions easier. acts as attr_reader
   end
 
   def []=(pos, value)
     # method to make assigning positions easier
-    x, y = pos
+    y, x = pos
 
-    @board[x][y] = value
+    @board[y][x] = value
 
   end
 
