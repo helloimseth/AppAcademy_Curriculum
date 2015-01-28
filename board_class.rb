@@ -36,7 +36,7 @@ class Board
       end
     end
 
-    [[0,3],[7,4]].each do |pos|
+    [[0,3],[7,3]].each do |pos|
       if pos[0] == 0
         self[pos] = Queen.new(pos, self, :black)
       else
@@ -44,7 +44,7 @@ class Board
       end
     end
 
-    [[0,4],[7,3]].each do |pos|
+    [[0,4],[7,4]].each do |pos|
       if pos[0] == 0
         self[pos] = King.new(pos, self, :black)
       else
@@ -107,7 +107,7 @@ class Board
     captured << self[end_pos] if !self[end_pos].nil?
 
     self[end_pos] = self[start_pos]
-    
+
     self[start_pos] = nil
 
     self[end_pos].pos = end_pos

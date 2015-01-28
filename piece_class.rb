@@ -25,9 +25,6 @@ class Piece
   end
 
 
-
-  protected # => want it to be accessible from subclasses
-
   def move_into_check?(end_pos)
     dupped_board = board.dup
 
