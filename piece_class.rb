@@ -43,28 +43,45 @@ end
 class SlidingPiece < Piece
 
   def moves
-    # uses the sublcasse's #move_dirs array in a loop to calculate the
-    # possible moves and puts them in an array. Let's the Superclass
-    # method validate them
+
+    possible_moves = []
+
+    self.class::DELTAS.each do |(x, y)|
+      next_x, next_y  = (@pos[0] + x), (@pos[1] + y)
+      next_pos = [next_x, next_y]
+
+
+      until next_pos.any? { |coord| !coord.between?(0,7) } ||
+        (!@board[next_pos].nil? && @board[next_pos].color == @color)
+
+        possible_moves << next_pos
+
+        next_pos = [(next_pos[0] + x), (next_pos[1] + y)]
+      end
+
+
+    end
+
+    possible_moves
   end
 
 end
 
 class Bishop < SlidingPiece
 
-  DELTAS = [[-1, 1], [-1 , -1], [1, -1], [1, 1]]
+  DELTAS = [[-1, 1], [-1, -1], [1, -1], [1, 1]]
 
 end
 
 class Rook < SlidingPiece
 
-  DELTAS = [[0, 1], [0 , -1], [-1, 0], [1, 0]]
+  DELTAS = [[0, 1], [0, -1], [-1, 0], [1, 0]]
 
 end
 
 class Queen < SlidingPiece
 
-  DELTAS = [[0, 1], [0 , -1], [-1, 0],
+  DELTAS = [[0, 1], [0, -1], [-1, 0],
             [1, 0], [-1, 1], [-1 , -1],
             [1, -1], [1, 1]]
 

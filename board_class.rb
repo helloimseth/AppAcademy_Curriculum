@@ -51,7 +51,7 @@ class Board
     end
 
     [1,6].each do |row|
-      row.each do |col|
+      @board[row].each_index do |col|
         pos = [row,col]
         if pos[0] == 1
           self[pos] = Pawn.new(pos, self, :black)
