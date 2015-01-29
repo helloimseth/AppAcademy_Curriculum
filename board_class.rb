@@ -70,10 +70,8 @@ class Board
     king_position = king_position(color)
     in_check = false
 
-    each_piece do |pos|
-      if self[pos].color != color
-        in_check = true if self[pos].moves.include?(king_position)
-      end
+    each_enemy(color) do |pos|
+      in_check = true if self[pos].moves.include?(king_position)
     end
 
     in_check
@@ -84,10 +82,8 @@ class Board
 
     check_mate = true
 
-    each_piece do |pos|
-      if self[pos].color == color && self[pos].valid_moves.count > 0
-        check_mate = false
-      end
+    each_teammate(color) do |pos|
+      check_mate = false if self[pos].valid_moves.count > 0
     end
 
     check_mate
@@ -153,8 +149,16 @@ class Board
     board[y][x] = value
   end
 
-  def each_piece(&prc)
-    each_pos { |pos| prc.call(pos) unless self[pos].nil? }
+  def each_teammate(color, &prc)
+    each_pos do |pos|
+      prc.call(pos) if !empty?(pos) && self[pos].color == color
+    end
+  end
+
+  def each_enemy(color, &prc)
+    each_pos do |pos|
+      prc.call(pos) if !empty?(pos) && self[pos].color != color
+    end
   end
 
   def each_pos(&prc)
