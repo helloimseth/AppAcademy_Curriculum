@@ -9,3 +9,6 @@ end
 
 class EmptySpaceError < CheckersError
 end
+
+class InvalidInputError < CheckersError
+end

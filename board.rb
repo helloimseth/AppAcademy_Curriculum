@@ -41,6 +41,29 @@ class Board
     end
   end
 
+  def game_over?
+    winner_is != nil || no_valid_moves?(:red) || no_valid_moves?(:black) 
+  end
+
+  def winner_is
+    remaining = pieces - removed
+    same_color = true
+    test_color = remaining[0].color
+
+    return test_color if remaining.all? {|piece| piece.color == test_color}
+
+    nil
+  end
+
+
+  def no_valid_moves?(color)
+    any_valid_moves = true
+    pieces.each do |piece|
+      any_valid_moves = false if piece.valid_moves.count > 0
+    end
+    any_valid_moves
+  end
+
   def render
     background = :defaul
 
@@ -50,7 +73,6 @@ class Board
     board.each_with_index do |row, index|
       background = (background == :white) ? :default : :white
       print "#{index} "
-
       row.map do |piece|
         background = (background == :white) ? :default : :white
         if piece.nil?

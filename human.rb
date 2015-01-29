@@ -44,14 +44,18 @@ class Human
   end
 
   def parse_input(string)
-    pos = string.split("")
-    pos = pos.map(&:to_i)
+    pos = string.split(" ")
+    pos = pos.map {|pos| pos.split("").map(&:to_i)}
 
-    if @board.empty?(pos) && @getting != :end_pos
+    if pos[0].size < 2
+      raise InvalidInputError.new "That's an invalid input!"
+    elsif @board.empty?(pos[0]) && @getting != :end_pos
       raise EmptySpaceError.new "You chose any empty space!"
-    elsif !@board.empty?(pos) && @board[pos].color != @color
+    elsif !@board.empty?(pos[0]) && @board[pos[0]].color != @color
       raise WrongColorError.new "You have to pick your color!"
     end
+
+    return pos[0] if @getting == :piece
 
     pos
   end

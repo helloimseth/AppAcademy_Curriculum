@@ -6,7 +6,7 @@ class Piece
   attr_accessor :pos, :is_king
   attr_reader :color, :board
 
-  SYMBOL = {red: "R", black: "B"}
+  SYMBOL = {red: "\u25CE", black: "\u25C9"}
   UP_DOWN = {red: -1, black: 1}
 
   def initialize(board, color, pos)
@@ -88,6 +88,28 @@ class Piece
     else
       true
     end
+  end
+
+  def valid_moves
+    valid_moves = []
+
+    slide_diffs.each do |(x,y)|
+      test_pos = [pos[0] + x]
+      test_pos << pos[1] + y
+      jump_test_pos = [pos[0] + (x * 2)]
+      jump_test_pos << pos[1] + (y * 2)
+
+      next unless test_pos.all? {|coord| coord.between?(0, 7)} ||
+                  jump_test_pos.all? {|coord| coord.between?(0, 7)}
+
+      if board.empty?(test_pos)
+        valid_moves << test_pos
+      elsif board.empty?(jump_test_pos) && board[test_pos].color != color
+        valid_moves << jump_test_pos
+      end
+    end
+
+    valid_moves
   end
 
   def slide_diffs
