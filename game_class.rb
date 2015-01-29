@@ -1,4 +1,4 @@
-require_relative 'piece_class.rb'
+require_relative 'piece_classes.rb'
 require_relative 'board_class.rb'
 
 class Game
@@ -36,7 +36,6 @@ class Game
     destination = gets.chomp
 
     input = [piece.downcase, destination.downcase]
-
   end
 
   def handle_input
@@ -52,4 +51,9 @@ class Game
 
   end
 
+end
+
+if __FILE__ == $PROGRAM_NAME
+  g = Game.new
+  g.play
 end

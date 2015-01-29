@@ -1,4 +1,4 @@
-require_relative 'piece_class.rb'
+require_relative 'piece_classes.rb'
 require_relative 'game_class.rb'
 
 class Board
@@ -163,6 +163,12 @@ class Board
         prc.call([row, col])
       end
     end
+  end
+
+  def empty?(pos)
+    y, x = pos
+
+    board[y][x].nil?
   end
 
 
