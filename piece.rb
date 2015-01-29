@@ -68,9 +68,11 @@ class Piece
   def perform_moves!(sequence)
     is_slide = perform_slide(sequence[0]) if sequence.count == 1
 
-    sequence.each do |move|
-      unless perform_jump(move)
-        raise InvalidMoveError.new "Sorry, that sequence is invalid."
+    if !is_slide
+      sequence.each do |move|
+        unless perform_jump(move)
+          raise InvalidMoveError.new "Sorry, that sequence is invalid."
+        end
       end
     end
 
