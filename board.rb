@@ -12,22 +12,22 @@ class Board
   def [](pos)
     x, y = pos
 
-    board[y][x]
+    board[x][y]
   end
 
   def []=(pos, value)
     x, y = pos
 
-    board[y][x] = value
+    board[x][y] = value
   end
 
   def add_piece(piece)
     self[piece.pos] = piece
   end
 
-  def remove_piece(piece)
-    removed << piece
-    self[piece.pos] = nil
+  def remove_piece_from(pos)
+    removed << self[pos].dup
+    self[pos] = nil
   end
 
   def empty?(pos)
@@ -38,6 +38,27 @@ class Board
     Board.new(false).tap do |board|
       pieces.each {|piece| Piece.new(board, piece.color, piece.pos)}
     end
+  end
+
+  def render
+    rendered_rows = []
+
+    board.each_with_index do |row, index|
+      rendered_row = [index]
+      rendered_row << "|"
+      rendered_row << row.map{ |piece| piece.nil? ? " " : piece.render}
+      rendered_rows << rendered_row.join(" ")
+    end
+
+    rendered_rows << [" " * 3].concat(Array.new(8, "-")).join(" ")
+    rendered_rows << [" " * 3].concat((0...8).to_a).join(" ")
+
+    rendered_rows
+  end
+
+  def display
+    render.each { |line| puts line }
+    nil
   end
 
   private
