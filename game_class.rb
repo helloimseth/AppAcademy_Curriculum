@@ -13,37 +13,71 @@ class Game
 
 
     until @board.check_mate?(:white) || @board.check_mate?(:black)
-      @board.display
+      reset_display
 
-      start_pos, end_pos = get_input
+      begin
 
-      start_pos = parse_input(start_pos)
+        start_pos, end_pos = get_input
 
-      end_pos = parse_input(end_pos)
+        @board.move(start_pos, end_pos)
 
-      @board.move(start_pos, end_pos)
+      rescue ArgumentError => e
+
+        puts "\nUh oh: #{e.message}\n"
+
+        retry
+
+      end
+
     end
-    @board.display
+
+    reset_display
     puts "Checkmate!"
 
   end
 
-  def get_input
-    puts "Which piece would you like to move?"
-    piece = gets.chomp
+  def get_input    
+    begin
 
-    puts "Where would you like to move it?"
-    destination = gets.chomp
+      puts "Which piece would you like to move?"
+      piece = parse_input(gets.chomp.downcase)
 
-    input = [piece.downcase, destination.downcase]
+    rescue StandardError => e
+
+      puts "#{e.message}"
+
+      retry
+
+    end
+
+    begin
+
+      puts "Where would you like to move it?"
+      destination = parse_input(gets.chomp.downcase)
+
+    rescue StandardError => e
+
+      puts "#{e.message}"
+
+      retry
+
+    end
+
+    [piece, destination]
   end
 
-  def handle_input
-
+  def reset_display
+    puts "\e[H\e[2J"
+    @board.display
   end
 
   def parse_input(input)
     input_arr = input.split("")
+
+    unless input_arr[0].match(/[abcdefgh]/) && input_arr[1].to_i.between?(1,8)
+      raise StandardError.new "\nUh oh: Please enter in the form of Letter-Number, e.g. A5\n"
+    end
+
     x_coord = input_arr[0].ord - 97
     y_coord = (input_arr[1].to_i - 8).abs
 
@@ -52,6 +86,7 @@ class Game
   end
 
 end
+
 
 if __FILE__ == $PROGRAM_NAME
   g = Game.new

@@ -90,14 +90,14 @@ class Board
   end
 
   def move(start_pos, end_pos)
-    raise "You chose an empty square!" if self[start_pos].nil?
+    raise ArgumentError.new "You chose an empty square!" if empty?(start_pos)
 
     unless self[start_pos].moves.include?(end_pos)
-      raise "That piece can't move like that!"
+      raise ArgumentError.new "That piece can't move like that!"
     end
 
     if self[start_pos].move_into_check?(end_pos)
-      raise "That would put you into check!"
+      raise ArgumentError.new "That would put you into check!"
     end
 
     captured << self[end_pos] if !self[end_pos].nil?
