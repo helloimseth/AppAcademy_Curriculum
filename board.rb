@@ -1,4 +1,5 @@
 require_relative 'piece.rb'
+require 'colorize'
 
 class Board
   attr_reader :removed, :board
@@ -41,24 +42,32 @@ class Board
   end
 
   def render
-    rendered_rows = []
+    background = :defaul
+
+    print " " * 4
+    puts (0...8).to_a.join(" " * 4).colorize(background)
 
     board.each_with_index do |row, index|
-      rendered_row = [index]
-      rendered_row << "|"
-      rendered_row << row.map{ |piece| piece.nil? ? " " : piece.render}
-      rendered_rows << rendered_row.join(" ")
+      background = (background == :white) ? :default : :white
+      print "#{index} "
+
+      row.map do |piece|
+        background = (background == :white) ? :default : :white
+        if piece.nil?
+          print (" " * 5).colorize(:background => background)
+        else
+          print "  #{piece.render}  ".colorize(:background => background)
+        end
+      end
+      puts "\n"
     end
 
-    rendered_rows << [" " * 3].concat(Array.new(8, "-")).join(" ")
-    rendered_rows << [" " * 3].concat((0...8).to_a).join(" ")
+    puts "\n"
 
-    rendered_rows
   end
 
   def display
-    render.each { |line| puts line }
-    nil
+    render
   end
 
   private

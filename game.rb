@@ -1,6 +1,8 @@
 require_relative 'board.rb'
 require_relative 'human.rb'
 require_relative 'errors.rb'
+require 'terminfo'
+require 'colorize'
 
 class Game
   attr_reader :board, :red_p, :black_p, :turn
@@ -14,9 +16,8 @@ class Game
   end
 
   def play
-
     loop do
-      board.display
+      display
 
       to_move = @turn.get_piece
       to_position = @turn.get_end_pos
@@ -25,7 +26,16 @@ class Game
 
       @turn = @turn == @red_p ? @black_p : @red_p
     end
+  end
 
+  private
+
+  def display
+    puts "\e[H\e[2J"
+    puts "---*~*~*~*~ Checkers ~*~*~*~*---"
+    2.times { puts "" }
+
+    board.display
   end
 
 end

@@ -28,7 +28,7 @@ class Piece
   end
 
   def render
-    SYMBOL[color]
+    SYMBOL[@color]
   end
 
   def perform_slide(end_pos)

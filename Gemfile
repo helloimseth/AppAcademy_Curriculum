@@ -1,0 +1,6 @@
+source "https://rubygems.org"
+
+ruby '2.1.2'
+
+gem 'ruby-terminfo'
+gem 'colorize'
