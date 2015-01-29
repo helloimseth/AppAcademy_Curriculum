@@ -1,5 +1,6 @@
 require_relative 'board.rb'
 require_relative 'human.rb'
+require_relative 'errors.rb'
 
 class Game
   attr_reader :board, :red_p, :black_p, :turn
@@ -9,6 +10,7 @@ class Game
     @red_p = Human.new(:red, @board)
     @black_p = Human.new(:black, @board)
     @turn = @red_p
+    play
   end
 
   def play
@@ -17,9 +19,7 @@ class Game
       board.display
 
       to_move = @turn.get_piece
-      p to_move
       to_position = @turn.get_end_pos
-      p to_position
 
       @board[to_move].perform_moves([to_position])
 
@@ -28,6 +28,8 @@ class Game
 
   end
 
+end
 
-
+if __FILE__ == $PROGRAM_NAME
+  g = Game.new
 end
