@@ -14,4 +14,15 @@ class Hand
     self.dup.cards.sort!
   end
 
+  private
+
+  def frequency_map
+    frequencies = Hash.new {|h, k| h[k] = 0}
+
+    cards.each do |card|
+      frequencies[card.value] += 1
+    end
+
+    frequencies
+  end
 end

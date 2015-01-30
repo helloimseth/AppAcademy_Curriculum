@@ -6,7 +6,12 @@ describe Hand do
   before { allow(deck).to receive(:take).with(5).and_return(random_hand) }
   let(:hand) { Hand.draw_cards(deck) }
   let(:random_hand) { Array.new(5) { Card.new(nil, nil, true) } }
-
+  let(:sorted) { [ Card.new(:three, :hearts),
+    Card.new(:three, :spades),
+    Card.new(:four,  :hearts),
+    Card.new(:five,  :clubs),
+    Card.new(:ace,   :spades) ] }
+    
   describe '::draw_cards' do
 
     it 'returns a new Hand' do
@@ -19,11 +24,7 @@ describe Hand do
   end
 
   describe '#sort' do
-    let(:sorted) { [ Card.new(:three, :hearts),
-      Card.new(:three, :spades),
-      Card.new(:four,  :hearts),
-      Card.new(:five,  :clubs),
-      Card.new(:ace,   :spades) ] }
+
 
     it 'sorts the cards in ascending order' do
       hand.cards = sorted.shuffle
@@ -31,4 +32,16 @@ describe Hand do
       expect(hand.sort).to eq(sorted)
     end
   end
+
+  # describe '#include?' do
+  #   it 'returns true if hand includes a pair'
+  # end
+
+  describe "#pairs"
+    it 'returns one value for one pair' do
+      expect(hand.pairs).to eq([:three])
+    end
+    it 'returns two values for two pairs'
+  end
+
 end
