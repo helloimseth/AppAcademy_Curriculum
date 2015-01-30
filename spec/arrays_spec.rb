@@ -1,4 +1,41 @@
+require 'rspec'
 require 'arrays'
+
+describe '#stock_picker' do
+  it 'takes an array' do
+    expect{ stock_picker(1) }.to raise_error(ArgumentError)
+  end
+
+  it 'returns a pair of indices whose elements are most different' do
+    stocks = [5, 2, 6, 4, 3]
+
+    expect(stock_picker(stocks)).to eq([1,2])
+  end
+
+end
+
+describe "#my_transpose" do
+  it "takes an array" do
+    expect{ my_transpose(1) }.to raise_error(ArgumentError)
+  end
+
+  it "returns the array transposed" do
+    rows = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8]
+    ]
+
+    cols = [
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8]
+    ]
+
+    expect(my_transpose(rows)).to eq(cols)
+  end
+end
+
 
 describe Array do
   describe '#my_uniq' do
@@ -17,12 +54,6 @@ describe Array do
     end
   end
 end
-
-
-# For Towers of Hanoi, focus on non-UI stuff first.
-# #render
-# #move
-# #won?
 
 describe TowersOfHanoi do
   let(:tower) { TowersOfHanoi.new }
