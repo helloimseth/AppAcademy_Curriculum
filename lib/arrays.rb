@@ -1,13 +1,34 @@
+require 'byebug'
+
 class TowersOfHanoi
+  attr_reader :peg1, :peg2, :peg3
 
   def initialize
-    peg1 = [3, 2, 1]
-    peg2 = []
-    peg3 = []
+    @peg1 = [3, 2, 1]
+    @peg2 = []
+    @peg3 = []
+  end
+
+  def pegs
+    [@peg1, @peg2, @peg3]
   end
 
   def render
-    "hello"
+    max_height = pegs.map(&:length).max
+
+    lines = []
+    (max_height-1).downto(0) do |level|
+      lines << pegs.map {|peg| peg[level] ? peg[level] : ""}.join("\t")
+    end
+
+    lines.join("\n")
+  end
+
+  def move(peg1, peg2)
+    if peg1.empty? || (!peg2.empty? && peg2.last < peg1.last)
+      raise StandardError.new
+    end
+    peg2 << peg1.pop
   end
 
 end

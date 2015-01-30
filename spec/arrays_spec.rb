@@ -25,8 +25,9 @@ end
 # #won?
 
 describe TowersOfHanoi do
+  let(:tower) { TowersOfHanoi.new }
+
   describe '#render' do
-    let(:tower) { TowersOfHanoi.new }
 
     it 'transforms three arrays into one multi-line string' do
       expect(tower.render).to be_a(String)
@@ -36,6 +37,35 @@ describe TowersOfHanoi do
       string = "1\t\t\n2\t\t\n3\t\t"
 
       expect(tower.render).to eq(string)
+    end
+  end
+
+  describe '#move' do
+    it 'should take 2 arguments' do
+      expect{tower.move(1,2,3)}.to raise_error(ArgumentError)
+    end
+
+    it 'takes the top disk from first peg' do
+      top_disk = tower.peg1.last
+      tower.move(tower.peg1, tower.peg2)
+
+      expect(tower.peg1.last).to_not be(top_disk)
+    end
+
+    it 'replaces moves that disk to the second peg' do
+      tower.move(tower.peg1, tower.peg2)
+
+      expect(tower.peg2.last).to be(1)
+    end
+
+    it 'should not allow a larger disc to be moved onto a smaller disk' do
+      tower.move(tower.peg1, tower.peg2)
+
+      expect{tower.move(tower.peg1, tower.peg2)}.to raise_error
+    end
+
+    it 'should not allow moves from an empty peg' do
+      expect{tower.move(tower.peg2, tower.peg1)}.to raise_error
     end
   end
 
