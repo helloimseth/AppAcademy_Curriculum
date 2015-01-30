@@ -14,6 +14,10 @@ class Hand
     self.dup.cards.sort!
   end
 
+  def of_a_kind(n)
+    frequency_map.select { |key, val| val == n }.keys
+  end
+
   private
 
   def frequency_map
