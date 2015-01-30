@@ -11,6 +11,11 @@ describe Hand do
     Card.new(:four,  :clubs),
     Card.new(:five,  :hearts),
     Card.new(:ace,   :spades) ] }
+  let(:full_house) { [ Card.new(:three, :hearts),
+    Card.new(:three, :spades),
+    Card.new(:three,  :clubs),
+    Card.new(:four,  :hearts),
+    Card.new(:four,   :spades) ] }
 
   describe '::draw_cards' do
     it 'returns a new Hand' do
@@ -32,11 +37,7 @@ describe Hand do
 
   describe "#of_a_kind" do
 
-    let(:full_house) { [ Card.new(:three, :hearts),
-      Card.new(:three, :spades),
-      Card.new(:three,  :clubs),
-      Card.new(:four,  :hearts),
-      Card.new(:four,   :spades) ] }
+
 
     let(:two_pairs) { [ Card.new(:three, :hearts),
       Card.new(:three, :spades),
@@ -74,7 +75,64 @@ describe Hand do
 
       expect(hand.of_a_kind(4)).to eq([:three])
     end
+  end
+
+  describe '#full_house' do
+    it 'returns a values of full house' do
+      hand.cards = full_house
+
+      expect(hand.full_house).to eq([:four, :three])
+    end
+
+    it 'returns an empty array if no full house' do
+      hand.cards = sorted
+
+      expect(hand.full_house).to eq([])
+    end
 
   end
+
+  describe '#flush?' do
+    let(:flush) { [ Card.new(:three, :hearts),
+      Card.new(:eight, :hearts),
+      Card.new(:four,  :hearts),
+      Card.new(:five,  :hearts),
+      Card.new(:ace,   :hearts) ] }
+
+    it 'returns true if flush' do
+      hand.cards = flush
+
+      expect(hand.flush?).to be(true)
+    end
+  end
+
+  describe '#straight?' do
+    let(:straight) { [ Card.new(:deuce, :hearts),
+      Card.new(:three, :spades),
+      Card.new(:four,  :clubs),
+      Card.new(:five,  :hearts),
+      Card.new(:six,   :spades) ] }
+    let(:ace_low) { [ Card.new(:deuce, :hearts),
+      Card.new(:three, :spades),
+      Card.new(:four,  :clubs),
+      Card.new(:five,  :hearts),
+      Card.new(:ace,   :spades) ] }
+
+    it 'returns true if straight' do
+      hand.cards = straight
+
+      expect(hand.straight?).to be(true)
+    end
+
+    it 'returns true if straight is ace to five' do
+      hand.cards = ace_low
+
+      expect(hand.straight?).to be(true)
+    end
+  end
+
+
+
+
 
 end
