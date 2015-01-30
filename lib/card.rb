@@ -48,9 +48,17 @@ class Card
 
   attr_reader :value, :suit
 
-  def initialize(value, suit)
-    @value = value
-    @suit  = suit
+  def initialize(value, suit, random = false)
+    @value = ( random ) ? random_value : value
+    @suit  = ( random ) ? random_suit  : suit
+  end
+
+  def random_value
+    VALUE_STRINGS.keys.sample
+  end
+
+  def random_suit
+    SUIT_STRINGS.keys.sample
   end
 
   def <=>(other_card)
@@ -60,7 +68,7 @@ class Card
     when 1
       1
     when 0
-      (SUIT_VALUES[self.suit] > SUIT_VALUES[self.suit]) ? -1 : 1
+      (SUIT_VALUES[self.suit] < SUIT_VALUES[other_card.suit]) ? -1 : 1
     end
   end
 

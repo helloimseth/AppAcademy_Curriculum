@@ -20,7 +20,7 @@ describe Card do
     end
 
     it 'compares cards of equal value by suit' do
-      expect(card<=>card2).to be(1)
+      expect(card<=>card2).to be(-1)
     end
   end
 end
