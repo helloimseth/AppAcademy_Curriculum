@@ -69,4 +69,23 @@ describe TowersOfHanoi do
     end
   end
 
+  describe '#won?' do
+    it 'returns true when peg 1 is empty and either peg2 or peg 3 is also empty' do
+      tower.peg1, tower.peg2 = tower.peg2, tower.peg1
+
+      expect(tower.won?).to be(true)
+    end
+
+    it 'returns false otherwise' do
+      expect(tower.won?).to be(false)
+    end
+  end
+
+  describe '#display' do
+    it 'prints the render to screen' do
+      output = tower.render
+
+      expect { tower.display }.to output(output).to_stdout
+    end
+  end
 end

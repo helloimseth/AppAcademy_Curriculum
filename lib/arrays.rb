@@ -1,7 +1,7 @@
 require 'byebug'
 
 class TowersOfHanoi
-  attr_reader :peg1, :peg2, :peg3
+  attr_accessor :peg1, :peg2, :peg3
 
   def initialize
     @peg1 = [3, 2, 1]
@@ -11,6 +11,10 @@ class TowersOfHanoi
 
   def pegs
     [@peg1, @peg2, @peg3]
+  end
+
+  def display
+    print render
   end
 
   def render
@@ -29,6 +33,21 @@ class TowersOfHanoi
       raise StandardError.new
     end
     peg2 << peg1.pop
+  end
+
+  def won?
+    peg1.empty? && (peg2.empty? || peg3.empty?)
+  end
+
+  def get_input
+    puts "Pick a peg"
+    i = gets.chomp
+    Integer(i)
+  end
+
+  def play
+    display
+
   end
 
 end
