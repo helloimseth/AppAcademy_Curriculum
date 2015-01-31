@@ -155,39 +155,25 @@ describe Hand do
       expect(hand.in_order).to eq(sorted)
 
     end
-
   end
 
-  # describe '#beats?' do
-  #   before do
-  #     hand2.cards = full_house
-  #     hand.cards  = ace_low
-  #   end
-  #
-  #   it 'returns true if self wins' do
-  #     expect(hand2.beats?(hand)).to be(true)
-  #   end
-  #
-  #   it 'returns false if other' do
-  #     expect(hand.beats?(hand2)).to be(false)
-  #   end
-  #
-  #   it 'handles score ties' do
-  #     hand2.cards = straight
-  #     expect(hand2.beats?(hand)).to be(true)
-  #   end
-  # end
-  #
-  # describe '#of_a_kind_tie' do
-  #   it 'compared of-a-kinds'
-  #   it 'compare highest kicker if of-a-kinds are tied'
-  #   it 'returns boolean relative to hand calling it'
-  # end
+  describe '#beats?' do
+    before do
+      hand2.cards = full_house
+      hand.cards  = ace_low
+    end
 
+    it 'returns true if self wins' do
+      expect(hand2.beats?(hand)).to be(true)
+    end
 
+    it 'returns false if other' do
+      expect(hand.beats?(hand2)).to be(false)
+    end
 
-
-
-
-
+    it 'handles score ties' do
+      hand2.cards = straight
+      expect(hand2.beats?(hand)).to be(true)
+    end
+  end
 end

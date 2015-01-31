@@ -66,10 +66,10 @@ class Hand
   def beats?(other_hand)
     case self.score <=> other_hand.score
     when 0
-      tie_breaker(other_hand)
-    when -1
-      true
+      tie_breaker(self.in_order, other_hand.in_order)
     when 1
+      true
+    when -1
       false
     end
   end
@@ -97,15 +97,15 @@ class Hand
     other_pair = other_hand.of_a_kind(2).map {|value| Card::CARD_VALUES[value]}.sort
   end
 
-  def tie_breaker(other_hand)
-    if self.score == 2
-      own_high = Card::CARD_VALUES[self.of_a_kind(2)]
-      other_high = Card::CARD_VALUES[other_hand.of_a_kind(2)]
-    elsif self.score == 6
-      own_high = Card::CARD_VALUES[self.of_a_kind(3)]
-      other_high = Card::CARD_VALUES[other_hand.of_a_kind(3)]
-      return own_high > other_high
-    else
+  def tie_breaker(own_cards, other_cards)
+    case own_cards.last <=> other_cards.last
+    when -1
+      true
+    when 1
+      false
+    when 0
+      return false if own_cards.count == 1
+      tie_breaker(own_cards[0..-2], other_cards[0..-2])
     end
   end
 
