@@ -8,11 +8,11 @@ describe Hand do
   let(:hand2) { Hand.draw_cards(deck) }
   let(:random_hand) { Array.new(5) { Card.new(nil, nil, true) } }
 
-  let(:sorted) { [ Card.new(:three, :hearts),
-    Card.new(:three, :spades),
-    Card.new(:four,  :clubs),
+  let(:sorted) { [ Card.new(:four,  :clubs),
     Card.new(:five,  :hearts),
-    Card.new(:ace,   :spades) ] }
+    Card.new(:ace,   :spades),
+    Card.new(:three, :hearts),
+    Card.new(:three, :spades) ] }
   let(:full_house) { [ Card.new(:three, :hearts),
     Card.new(:three, :spades),
     Card.new(:three,  :clubs),
@@ -57,9 +57,9 @@ describe Hand do
 
   describe '#sort' do
     it 'sorts the cards in ascending order' do
-      hand.cards = sorted.shuffle
+      hand.cards = straight.shuffle
 
-      expect(hand.sort).to eq(sorted)
+      expect(hand.sort).to eq(straight)
     end
   end
 
@@ -67,26 +67,26 @@ describe Hand do
     it 'returns one value for one pair' do
       hand.cards = full_house
 
-      expect(hand.of_a_kind(2)).to eq([:four])
+      expect(hand.of_a_kind(2).last.value).to eq(:four)
     end
 
     it 'returns two values for two pairs' do
       hand.cards = two_pairs
 
-      expect(hand.of_a_kind(2)).to eq([:three, :four])
+      expect(hand.of_a_kind(2).map(&:value).uniq).to eq([:three, :four])
     end
 
 
     it 'returns the value if three of a kind' do
       hand.cards = full_house
 
-      expect(hand.of_a_kind(3)).to eq([:three])
+      expect(hand.of_a_kind(3).last.value).to eq(:three)
     end
 
     it 'returns the value if four of a kind' do
       hand.cards = fours
 
-      expect(hand.of_a_kind(4)).to eq([:three])
+      expect(hand.of_a_kind(4).last.value).to eq(:three)
     end
 
     it 'returns [] otherwise' do
@@ -97,17 +97,17 @@ describe Hand do
     end
   end
 
-  describe '#full_house' do
-    it 'returns a values of full house' do
+  describe '#full_house?' do
+    it 'returns true if a full house' do
       hand.cards = full_house
 
-      expect(hand.full_house).to eq([:four, :three])
+      expect(hand.full_house?).to be(true)
     end
 
-    it 'returns an empty array if no full house' do
+    it 'returns false if no full house' do
       hand.cards = sorted
 
-      expect(hand.full_house).to eq([])
+      expect(hand.full_house?).to be(false)
     end
 
   end
@@ -148,25 +148,43 @@ describe Hand do
   end
 
 
-  describe '#beats?' do
-    before do
-      hand2.cards = full_house
-      hand.cards  = ace_low
+  describe 'in_order' do
+    it 'return the hand in order, with highest points value last' do
+      hand.cards = sorted.shuffle
+
+      expect(hand.in_order).to eq(sorted)
+
     end
 
-    it 'returns true if self wins' do
-      expect(hand2.beats?(hand)).to be(true)
-    end
-
-    it 'returns false if other' do
-      expect(hand.beats?(hand2)).to be(false)
-    end
-
-    it 'handles score ties' do
-      hand2.cards = straight
-      expect(hand2.beats?(hand)).to be(true)
-    end
   end
+
+  # describe '#beats?' do
+  #   before do
+  #     hand2.cards = full_house
+  #     hand.cards  = ace_low
+  #   end
+  #
+  #   it 'returns true if self wins' do
+  #     expect(hand2.beats?(hand)).to be(true)
+  #   end
+  #
+  #   it 'returns false if other' do
+  #     expect(hand.beats?(hand2)).to be(false)
+  #   end
+  #
+  #   it 'handles score ties' do
+  #     hand2.cards = straight
+  #     expect(hand2.beats?(hand)).to be(true)
+  #   end
+  # end
+  #
+  # describe '#of_a_kind_tie' do
+  #   it 'compared of-a-kinds'
+  #   it 'compare highest kicker if of-a-kinds are tied'
+  #   it 'returns boolean relative to hand calling it'
+  # end
+
+
 
 
 

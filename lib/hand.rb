@@ -18,9 +18,9 @@ class Hand
   end
 
   def score
-    return 7 if full_house.any?
-    return 3 if of_a_kind(2).count == 2
-    return 2 if of_a_kind(2).count == 1
+    return 7 if full_house?
+    return 3 if of_a_kind(2).count == 4
+    return 2 if of_a_kind(2).count == 2
     return 4 if of_a_kind(3).any?
     return 8 if of_a_kind(4).any?
     return 9 if straight_flush?
@@ -31,12 +31,15 @@ class Hand
   end
 
   def of_a_kind(n)
-    ( frequency_map.select { |key, val| val == n }.keys )
+    self.cards.select do |card|
+
+      frequency_map[card.value] == n
+
+    end.sort
   end
 
-  def full_house
-    # debugger
-    of_a_kind(2).size == of_a_kind(3).size ? of_a_kind(2) + of_a_kind(3) : []
+  def full_house?
+    of_a_kind(2).size == 2 && of_a_kind(3).size == 3
   end
 
   def flush?
@@ -44,13 +47,12 @@ class Hand
   end
 
   def ace_low?
-    sorted.map(&:value) == [:deuce, :three, :four, :five, :ace ]
+    self.sort.map(&:value) == [:deuce, :three, :four, :five, :ace ]
   end
 
   def straight?
-    sorted = sort
     return true if ace_low?
-    cards_in_order?(sorted)
+    cards_in_order?(self.sort)
   end
 
   def straight_flush?
@@ -65,12 +67,35 @@ class Hand
     case self.score <=> other_hand.score
     when 0
       tie_breaker(other_hand)
-    else
+    when -1
+      true
+    when 1
+      false
+    end
+  end
 
+  def in_order
+    if score == 7
+      of_a_kind(2) + of_a_kind(3)
+    elsif score.between?(2, 3)
+      int_score = score.to_i
+
+      remaining_cards = cards - of_a_kind(int_score)
+      remaining_cards.sort + of_a_kind(int_score)
+    elsif score == 8
+      remaining_cards = cards - of_a_kind(4)
+      remaining_cards.sort + of_a_kind(4)
+    else
+      self.sort
     end
   end
 
   private
+
+  def of_a_kind_tie(other_hand)
+    self_pair = of_a_kind(2).map {|value| Card::CARD_VALUES[value]}.sort
+    other_pair = other_hand.of_a_kind(2).map {|value| Card::CARD_VALUES[value]}.sort
+  end
 
   def tie_breaker(other_hand)
     if self.score == 2
@@ -81,6 +106,7 @@ class Hand
       other_high = Card::CARD_VALUES[other_hand.of_a_kind(3)]
       return own_high > other_high
     else
+    end
   end
 
   def cards_in_order?(sorted)
