@@ -5,7 +5,9 @@ describe Hand do
   let(:deck) { double("deck") }
   before { allow(deck).to receive(:take).with(5).and_return(random_hand) }
   let(:hand) { Hand.draw_cards(deck) }
+  let(:hand2) { Hand.draw_cards(deck) }
   let(:random_hand) { Array.new(5) { Card.new(nil, nil, true) } }
+
   let(:sorted) { [ Card.new(:three, :hearts),
     Card.new(:three, :spades),
     Card.new(:four,  :clubs),
@@ -16,6 +18,32 @@ describe Hand do
     Card.new(:three,  :clubs),
     Card.new(:four,  :hearts),
     Card.new(:four,   :spades) ] }
+  let(:straight) { [ Card.new(:deuce, :hearts),
+    Card.new(:three, :spades),
+    Card.new(:four,  :clubs),
+    Card.new(:five,  :hearts),
+    Card.new(:six,   :spades) ] }
+  let(:ace_low) { [ Card.new(:deuce, :hearts),
+    Card.new(:three, :spades),
+    Card.new(:four,  :clubs),
+    Card.new(:five,  :hearts),
+    Card.new(:ace,   :spades) ] }
+  let(:flush) { [ Card.new(:three, :hearts),
+    Card.new(:eight, :hearts),
+    Card.new(:four,  :hearts),
+    Card.new(:five,  :hearts),
+    Card.new(:ace,   :hearts) ] }
+  let(:two_pairs) { [ Card.new(:three, :hearts),
+    Card.new(:three, :spades),
+    Card.new(:four,  :clubs),
+    Card.new(:four,  :hearts),
+    Card.new(:ace,   :spades) ] }
+  let(:fours) { [ Card.new(:three, :hearts),
+    Card.new(:three, :spades),
+    Card.new(:three, :clubs),
+    Card.new(:three, :diamonds),
+    Card.new(:ace,   :spades) ] }
+
 
   describe '::draw_cards' do
     it 'returns a new Hand' do
@@ -36,21 +64,6 @@ describe Hand do
   end
 
   describe "#of_a_kind" do
-
-
-
-    let(:two_pairs) { [ Card.new(:three, :hearts),
-      Card.new(:three, :spades),
-      Card.new(:four,  :clubs),
-      Card.new(:four,  :hearts),
-      Card.new(:ace,   :spades) ] }
-
-    let(:fours) { [ Card.new(:three, :hearts),
-        Card.new(:three, :spades),
-        Card.new(:three, :clubs),
-        Card.new(:three, :diamonds),
-        Card.new(:ace,   :spades) ] }
-
     it 'returns one value for one pair' do
       hand.cards = full_house
 
@@ -75,6 +88,13 @@ describe Hand do
 
       expect(hand.of_a_kind(4)).to eq([:three])
     end
+
+    it 'returns [] otherwise' do
+      hand.cards = straight
+
+      expect(hand.of_a_kind(2)).to eq([])
+      expect(hand.of_a_kind(3)).to eq([])
+    end
   end
 
   describe '#full_house' do
@@ -93,12 +113,6 @@ describe Hand do
   end
 
   describe '#flush?' do
-    let(:flush) { [ Card.new(:three, :hearts),
-      Card.new(:eight, :hearts),
-      Card.new(:four,  :hearts),
-      Card.new(:five,  :hearts),
-      Card.new(:ace,   :hearts) ] }
-
     it 'returns true if flush' do
       hand.cards = flush
 
@@ -107,17 +121,6 @@ describe Hand do
   end
 
   describe '#straight?' do
-    let(:straight) { [ Card.new(:deuce, :hearts),
-      Card.new(:three, :spades),
-      Card.new(:four,  :clubs),
-      Card.new(:five,  :hearts),
-      Card.new(:six,   :spades) ] }
-    let(:ace_low) { [ Card.new(:deuce, :hearts),
-      Card.new(:three, :spades),
-      Card.new(:four,  :clubs),
-      Card.new(:five,  :hearts),
-      Card.new(:ace,   :spades) ] }
-
     it 'returns true if straight' do
       hand.cards = straight
 
@@ -128,6 +131,40 @@ describe Hand do
       hand.cards = ace_low
 
       expect(hand.straight?).to be(true)
+    end
+  end
+
+  describe '#score' do
+    # raises mysterious error
+    # it 'calls of_a_kind' do
+    #   hand.cards = straight
+    #   allow(hand).to receive(:of_a_kind).with(2)
+    #   hand.score
+    # end
+
+    it 'returns an integer' do
+      expect(hand.score).to be_an(Integer)
+    end
+  end
+
+
+  describe '#beats?' do
+    before do
+      hand2.cards = full_house
+      hand.cards  = ace_low
+    end
+
+    it 'returns true if self wins' do
+      expect(hand2.beats?(hand)).to be(true)
+    end
+
+    it 'returns false if other' do
+      expect(hand.beats?(hand2)).to be(false)
+    end
+
+    it 'handles score ties' do
+      hand2.cards = straight
+      expect(hand2.beats?(hand)).to be(true)
     end
   end
 

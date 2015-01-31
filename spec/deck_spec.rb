@@ -14,6 +14,11 @@ describe Deck do
     it "should have no duplicates" do
       expect(deck.cards.uniq.count).to eq(52)
     end
+
+    it "should shuffle itself automatically" do
+      expect(deck).to receive(:shuffle!)
+      deck.send(:initialize)
+    end
   end
 
   describe "#count" do

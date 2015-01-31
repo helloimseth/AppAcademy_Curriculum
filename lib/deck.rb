@@ -20,6 +20,7 @@ class Deck
 
   def initialize
     @cards = Deck.build_deck
+    shuffle!
   end
 
   def take(n)
