@@ -42,8 +42,22 @@ class Board
   end
 
   def game_over?
-    winner_is != nil || no_valid_moves?(:red) || no_valid_moves?(:black) 
+    winner_is != nil || no_valid_moves?(:red) || no_valid_moves?(:black)
   end
+
+  def no_valid_moves?(color)
+    any_valid_moves = true
+    pieces.each do |piece|
+      any_valid_moves = false if piece.valid_moves.count > 0
+    end
+    any_valid_moves
+  end
+
+  def display
+    render
+  end
+
+  private
 
   def winner_is
     remaining = pieces - removed
@@ -55,13 +69,10 @@ class Board
     nil
   end
 
-
-  def no_valid_moves?(color)
-    any_valid_moves = true
-    pieces.each do |piece|
-      any_valid_moves = false if piece.valid_moves.count > 0
+  def fill_board
+    board.each_index do |row|
+      add_row(row) unless [3, 4].include?(row)
     end
-    any_valid_moves
   end
 
   def render
@@ -86,18 +97,6 @@ class Board
 
     puts "\n"
 
-  end
-
-  def display
-    render
-  end
-
-  private
-
-  def fill_board
-    board.each_index do |row|
-      add_row(row) unless [3, 4].include?(row)
-    end
   end
 
   def add_row(row_num)
