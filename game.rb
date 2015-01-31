@@ -20,10 +20,9 @@ class Game
       display
 
       begin
-        to_move = @turn.get_piece
-        p to_move
-        to_position = @turn.get_end_pos
-        p to_position
+        to_move = @turn.get_input
+        to_position = @turn.get_input
+        
         @board[to_move].perform_moves(to_position)
       rescue InvalidMoveError => e
         puts e.message

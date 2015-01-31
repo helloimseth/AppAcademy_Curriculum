@@ -1,11 +1,14 @@
 require_relative 'board.rb'
 
 class Human
+  REQUESTS = {piece: "which piece would you like to move?",
+              end_pos: "where would you like to move it?"}
 
   def initialize(color, board)
     @color = color
     @name = get_name
     @board = board
+    @getting = :piece
   end
 
   def get_name
@@ -13,10 +16,9 @@ class Human
     gets.chomp
   end
 
-  def get_piece
+  def get_input
     begin
-      @getting = :piece
-      puts "#{@name}, which piece would you like to move?"
+      puts "#{@name}, #{REQUESTS[@getting]}"
       input = gets.chomp
 
       input = parse_input(input)
@@ -25,23 +27,23 @@ class Human
 
       retry
     end
-
+    @getting = :piece ? @getting = :end_pos : @getting = :piece
     input
   end
 
-  def get_end_pos
-    begin
-      @getting = :end_pos
-      puts "Where would you like to move it?"
-      input = parse_input(gets.chomp)
-    rescue CheckersError => e
-      puts "\n #{e.message}"
-
-      retry
-    end
-
-    input
-  end
+  # def get_end_pos
+  #   begin
+  #     @getting = :end_pos
+  #     puts "\nWhere would you like to move it?"
+  #     input = parse_input(gets.chomp)
+  #   rescue CheckersError => e
+  #     puts "\n #{e.message}"
+  #
+  #     retry
+  #   end
+  #
+  #   input
+  # end
 
   def parse_input(string)
     pos = string.split(" ")

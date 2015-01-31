@@ -6,7 +6,7 @@ class Piece
   attr_accessor :pos, :is_king
   attr_reader :color, :board
 
-  SYMBOL = {red: "\u25CE", black: "\u25C9"}
+  SYMBOL = {red: "\u25CE\u25CE", black: "\u25C9\u25C9"}
   UP_DOWN = {red: -1, black: 1}
 
   def initialize(board, color, pos)
