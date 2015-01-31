@@ -54,7 +54,8 @@ class Board
   end
 
   def display
-    render
+    puts render
+    print render_locations
   end
 
   private
@@ -76,28 +77,41 @@ class Board
   end
 
   def render
-    background = :defaul
+    background = :default
 
-    print " " * 4
-    puts (0...8).to_a.join(" " * 4).colorize(background)
+    # print " " * 4
+    # puts (0...8).to_a.join(" " * 4).colorize(background)
 
-    board.each_with_index do |row, index|
+    board.map.with_index do |row, index|
       background = (background == :white) ? :default : :white
-      print "#{index} "
+      # print "#{index} "
       row.map do |piece|
         background = (background == :white) ? :default : :white
         if piece.nil?
-          print (" " * 5).colorize(:background => background)
+          (" " * 5).colorize(:background => background)
         else
-          print "  #{piece.render}  ".colorize(:background => background)
+          "  #{piece.render}  ".colorize(:background => background)
         end
-      end
-      puts "\n"
-    end
-
-    puts "\n"
-
+      end.join("")
+    end.join("\n")
   end
+
+  def render_locations
+    background = :default
+
+    board.map.with_index do |row, row_i|
+      background = (background == :white) ? :default : :white
+      row.map.with_index do |col, col_i|
+        background = (background == :white) ? :default : :white
+        if col_i % 2 == row_i % 2
+          (" " * 5).colorize(:background => background)
+        else
+          " #{row_i},#{col_i} ".colorize(:background => background)
+        end
+      end.join("")
+    end.join("\n")
+  end
+
 
   def add_row(row_num)
     i = row_num
