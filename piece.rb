@@ -6,7 +6,8 @@ class Piece
   attr_accessor :pos, :is_king
   attr_reader :color, :board
 
-  SYMBOL = {red: "\u25CE\u25CE", black: "\u25C9\u25C9"}
+  SYMBOL = {[:red, false] => "\u25CE", [:black, false] => "\u25C9",
+            [:red, false] => "\u2654", [:black, false] => "\u265A"}
   UP_DOWN = {red: -1, black: 1}
 
   def initialize(board, color, pos)
@@ -24,11 +25,13 @@ class Piece
     else
       raise InvalidMoveError.new "Sorry, that sequence is invalid."
     end
+
+    maybe_promote
     nil
   end
 
   def render
-    SYMBOL[@color]
+    SYMBOL[[@color, @is_king]]
   end
 
   def perform_slide(end_pos)

@@ -21,15 +21,17 @@ class Game
 
       begin
         to_move = @turn.get_input
+        p to_move
         to_position = @turn.get_input
-        
+        p to_position
+
         @board[to_move].perform_moves(to_position)
       rescue InvalidMoveError => e
         puts e.message
         retry
       end
 
-      @turn = @turn == @red_p ? @black_p : @red_p
+      @turn = (@turn == @red_p) ? @black_p : @red_p
     end
   end
 
@@ -37,11 +39,11 @@ class Game
 
   def display
     puts "\e[H\e[2J"
-    puts "     ---*~*~*~*~ Checkers ~*~*~*~*---"
-    puts "    Please enter coordinates using the"
-    puts "    numbers around the board, with the"
-    puts "   vertical index first, e.g. 70 for the"
-    puts "          bottom-left-most piece"
+    puts "     ---*~*~*~*~ Checkers ~*~*~*~*---".center(TermInfo.screen_size[1])
+    puts "    Please enter coordinates using the".center(TermInfo.screen_size[1])
+    puts "    numbers around the board, with the".center(TermInfo.screen_size[1])
+    puts "   vertical index first, e.g. 70 for the".center(TermInfo.screen_size[1])
+    puts "          bottom-left-most piece".center(TermInfo.screen_size[1])
     2.times { puts "" }
 
     board.display

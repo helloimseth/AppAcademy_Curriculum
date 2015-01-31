@@ -1,4 +1,5 @@
 require_relative 'board.rb'
+require 'byebug'
 
 class Human
   REQUESTS = {piece: "which piece would you like to move?",
@@ -17,6 +18,7 @@ class Human
   end
 
   def get_input
+    # debugger
     begin
       puts "#{@name}, #{REQUESTS[@getting]}"
       input = gets.chomp
@@ -27,7 +29,9 @@ class Human
 
       retry
     end
-    @getting = :piece ? @getting = :end_pos : @getting = :piece
+
+    @getting == :piece ? @getting = :end_pos : @getting = :piece
+    
     input
   end
 
@@ -49,6 +53,14 @@ class Human
     pos = string.split(" ")
     pos = pos.map {|pos| pos.split("").map(&:to_i)}
 
+    validate_input(pos)
+
+    return pos[0] if @getting == :piece
+
+    pos
+  end
+
+  def validate_input(pos)
     if pos[0].size < 2
       raise InvalidInputError.new "That's an invalid input!"
     elsif @board.empty?(pos[0]) && @getting != :end_pos
@@ -56,10 +68,6 @@ class Human
     elsif !@board.empty?(pos[0]) && @board[pos[0]].color != @color
       raise WrongColorError.new "You have to pick your color!"
     end
-
-    return pos[0] if @getting == :piece
-
-    pos
   end
 
 end

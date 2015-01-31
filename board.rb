@@ -54,11 +54,8 @@ class Board
   end
 
   def display
-    puts " " * 20 + "Board"
     puts render
-    print "\n\n"
-    puts " " * 18 + "Board Codes"
-    puts render_locations
+
   end
 
   private
@@ -81,36 +78,30 @@ class Board
 
   def render
     background = :default
-    board.map.with_index do |row, index|
+
+    board.each_with_index do |row, row_i|
       background = (background == :white) ? :default : :white
-      # print "#{index} "
-      row.map do |piece|
+      row.each do |piece|
         background = (background == :white) ? :default : :white
         if piece.nil?
-          (" " * 6).colorize(:background => background)
+          print (" " * 5).colorize(:background => background)
         else
-          "  #{piece.render}  ".colorize(:background => background)
+          print "  #{piece.render}  ".colorize(:background => background)
         end
-      end.join("")
-    end.join("\n")
-  end
-
-  def render_locations
-    background = :default
-
-    board.map.with_index do |row, row_i|
-      background = (background == :white) ? :default : :white
-      row.map.with_index do |col, col_i|
+      end
+      print "   |   "
+      row.each_index do |col|
         background = (background == :white) ? :default : :white
-        if col_i % 2 == row_i % 2
-          (" " * 6).colorize(:background => background)
+        if col % 2 == row_i % 2
+          print (" " * 4).colorize(:background => background)
         else
-          "  #{row_i}#{col_i}  ".colorize(:background => background)
+          print " #{row_i}#{col} ".colorize(:background => background)
         end
-      end.join("")
-    end.join("\n")
+      end
+      print "\n"
+    end
+    nil
   end
-
 
   def add_row(row_num)
     i = row_num
