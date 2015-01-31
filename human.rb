@@ -31,23 +31,11 @@ class Human
     end
 
     @getting == :piece ? @getting = :end_pos : @getting = :piece
-    
+
     input
   end
 
-  # def get_end_pos
-  #   begin
-  #     @getting = :end_pos
-  #     puts "\nWhere would you like to move it?"
-  #     input = parse_input(gets.chomp)
-  #   rescue CheckersError => e
-  #     puts "\n #{e.message}"
-  #
-  #     retry
-  #   end
-  #
-  #   input
-  # end
+  private
 
   def parse_input(string)
     pos = string.split(" ")

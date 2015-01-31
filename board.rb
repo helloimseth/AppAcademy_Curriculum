@@ -35,6 +35,10 @@ class Board
     self[pos].nil?
   end
 
+  def each(&prc)
+    board.each(&:prc)
+  end
+
   def dup
     Board.new(false).tap do |board|
       pieces.each {|piece| Piece.new(board, piece.color, piece.pos)}
@@ -56,6 +60,10 @@ class Board
   def display
     puts render
 
+  end
+
+  def pieces
+    board.flatten.compact
   end
 
   private
@@ -113,8 +121,5 @@ class Board
     end
   end
 
-  def pieces
-    board.flatten.compact
-  end
 
 end

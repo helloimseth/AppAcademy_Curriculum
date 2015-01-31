@@ -1,5 +1,6 @@
 require_relative 'board.rb'
 require_relative 'human.rb'
+require_relative 'computer.rb'
 require_relative 'errors.rb'
 require 'terminfo'
 require 'colorize'
@@ -9,8 +10,8 @@ class Game
 
   def initialize
     @board = Board.new
-    @red_p = Human.new(:red, @board)
-    @black_p = Human.new(:black, @board)
+    @red_p = Computer.new(:red, @board)
+    @black_p = Computer.new(:black, @board)
     @turn = @red_p
     play
   end
@@ -24,6 +25,7 @@ class Game
         p to_move
         to_position = @turn.get_input
         p to_position
+
 
         @board[to_move].perform_moves(to_position)
       rescue InvalidMoveError => e

@@ -7,7 +7,7 @@ class Piece
   attr_reader :color, :board
 
   SYMBOL = {[:red, false] => "\u25CE", [:black, false] => "\u25C9",
-            [:red, false] => "\u2654", [:black, false] => "\u265A"}
+            [:red, true] => "\u2654", [:black, true] => "\u265A"}
   UP_DOWN = {red: -1, black: 1}
 
   def initialize(board, color, pos)
@@ -71,9 +71,9 @@ class Piece
   def perform_moves!(sequence)
     is_slide = perform_slide(sequence[0]) if sequence.count == 1
 
-    if !is_slide
+    unless is_slide
       sequence.each do |move|
-        unless perform_jump(move)
+        if !perform_jump(move)
           raise InvalidMoveError.new "Sorry, that sequence is invalid."
         end
       end
@@ -85,7 +85,7 @@ class Piece
     dup_board = board.dup
 
     begin
-      dup_board[pos].perform_moves!(sequence)
+      dup_board[@pos].perform_moves!(sequence)
     rescue
       false
     else
@@ -158,8 +158,8 @@ class Piece
   end
 
   def maybe_promote
-    is_king = true if color == :black && pos[0] == 7
-    is_king = true if color == :red && pos[0] == 0
+    @is_king = true if color == :black && pos[0] == 7
+    @is_king = true if color == :red && pos[0] == 0
   end
 
 end
