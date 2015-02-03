@@ -11,7 +11,7 @@ class Question
     Question.new(fields.first)
   end
 
-  def self.find_by_author_id(id)
+  def self.find_by_user_id(id)
     questions = QuestionsDatabase.instance.execute(<<-SQL, id)
       SELECT
         *
@@ -36,15 +36,7 @@ class Question
   end
 
   def replies
-    self_replies = QuestionsDatabase.instance.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        replies
-      WHERE
-        question_id = ?
-      SQL
-    self_replies.map { |reply| Reply.new(reply) }
+    Reply.find_by_question_id(id)
   end
 
 

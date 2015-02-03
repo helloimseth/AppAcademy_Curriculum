@@ -34,20 +34,11 @@ class User
   end
 
   def authored_questions
-    questions_asked = Question.find_by_author_id(id)
+    Question.find_by_user_id(id)
   end
 
   def authored_replies
-    replies_authored = QuestionsDatabase.instance.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        replies
-      WHERE
-        user_id = ?
-      SQL
-
-      replies_authored.map { |reply| Reply.new(reply) }
+    Reply.find_by_user_id(id)
   end
 
 end
