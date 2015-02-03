@@ -24,7 +24,7 @@ class Reply
   end
 
   def self.find_by_user_id(user_id)
-    replies = QuestionsDatabase.instance.execute(<<-SQL, id)
+    replies = QuestionsDatabase.instance.execute(<<-SQL, user_id)
       SELECT
         *
       FROM
@@ -55,6 +55,7 @@ class Reply
   end
 
   def parent_reply
+    return nil unless parent_id
     Reply.find_by_id(parent_id)
   end
 
@@ -66,7 +67,10 @@ class Reply
         replies
       WHERE
         parent_id = ?
+
       SQL
+
+      p replies
 
       replies.map { |reply| Reply.new(reply) }
   end

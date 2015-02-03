@@ -27,6 +27,10 @@ class Question
     QuestionFollower.most_followed_questions(n)
   end
 
+  def self.most_liked(n)
+    QuestionLike.most_liked_questions(n)
+  end
+
   attr_accessor :id, :user_id, :body
 
   def initialize( options = {} )
