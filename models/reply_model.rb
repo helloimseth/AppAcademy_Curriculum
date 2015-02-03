@@ -1,7 +1,7 @@
 require_relative './save_module.rb'
 
 class Reply
-  include SaveFunctions
+  include SaveMethods
 
   def self.find_by_id(id)
     fields = QuestionsDatabase.instance.execute(<<-SQL, id)
@@ -50,6 +50,14 @@ class Reply
     @body = options['body']
   end
 
+  def table
+    'replies'
+  end
+
+  def columns
+    '(question_id, parent_id, user_id, body)'
+  end
+
   def author
     User.find_by_id(user_id)
   end
@@ -73,8 +81,6 @@ class Reply
         parent_id = ?
 
       SQL
-
-      p replies
 
       replies.map { |reply| Reply.new(reply) }
   end

@@ -71,7 +71,7 @@ class QuestionLike
       GROUP BY
         questions.id
       ORDER BY
-        COUNT(likings.user_id)
+        COUNT(likings.user_id) DESC
       LIMIT
         ?
     SQL

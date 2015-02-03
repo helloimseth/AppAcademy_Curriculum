@@ -1,7 +1,7 @@
 require_relative './save_module.rb'
 
 class Question
-  include SaveFunctions
+  include SaveMethods
 
   def self.find_by_id(id)
     fields = QuestionsDatabase.instance.execute(<<-SQL, id)
@@ -41,6 +41,14 @@ class Question
     @id = options['id']
     @user_id = options['user_id']
     @body = options['body']
+  end
+
+  def table
+    'questions'
+  end
+
+  def columns
+    '(body, user_id)'
   end
 
   def author

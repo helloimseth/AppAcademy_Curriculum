@@ -1,4 +1,3 @@
-
 class QuestionFollower
   def self.find_by_id(id)
     fields = QuestionsDatabase.instance.execute(<<-SQL, id)
@@ -55,7 +54,7 @@ class QuestionFollower
     GROUP BY
       questions.id
     ORDER BY
-      COUNT(followings.user_id)
+      COUNT(followings.user_id) DESC
     LIMIT
       ?
     SQL
