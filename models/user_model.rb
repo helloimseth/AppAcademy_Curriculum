@@ -1,4 +1,8 @@
+require_relative './save_module.rb'
+
 class User
+  include SaveFunctions
+
   def self.find_by_id(id)
     fields = QuestionsDatabase.instance.execute(<<-SQL, id)
       SELECT
@@ -65,5 +69,6 @@ class User
 
     average_karma.first.values.first
   end
+
 
 end

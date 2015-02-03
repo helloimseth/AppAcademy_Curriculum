@@ -1,4 +1,8 @@
+require_relative './save_module.rb'
+
 class Reply
+  include SaveFunctions
+
   def self.find_by_id(id)
     fields = QuestionsDatabase.instance.execute(<<-SQL, id)
       SELECT

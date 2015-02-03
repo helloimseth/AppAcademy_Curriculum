@@ -1,4 +1,8 @@
+require_relative './save_module.rb'
+
 class Question
+  include SaveFunctions
+
   def self.find_by_id(id)
     fields = QuestionsDatabase.instance.execute(<<-SQL, id)
       SELECT
@@ -58,4 +62,5 @@ class Question
   def num_likes
     QuestionLike.num_likes_for_question_id(id)
   end
+
 end
