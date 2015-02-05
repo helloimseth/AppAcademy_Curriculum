@@ -15,22 +15,17 @@ class User < ActiveRecord::Base
   has_many :answered_polls, -> { distinct },
             through: :answered_questions, source: :poll
 
-  def completed_polls
-    self.answered_polls
-        .joins("LEFT OUTER JOIN
-                      (SELECT
-                        *
-                       FROM
-                        responses
-                       WHERE
-                        responses.user_id = 2) AS r
-                       ON
-                        answer_choices.id = r.answer_id")
+  def completed_polls1
+    Poll.joins("JOIN questions AS q ON polls.id = q.poll_id")
+        .joins("JOIN answer_choices AS a ON q.id = a.question_id")
+        .joins("LEFT OUTER JOIN (#{self.responses.to_sql}) AS r
+                ON a.id = r.answer_id")
         .group("polls.id")
         .having("COUNT(DISTINCT q.id) = COUNT(r.id)")
   end
+  end
 
-  def completed_polls1
+  def completed_polls
     Poll.joins("JOIN questions AS q ON polls.id = q.poll_id")
         .joins("JOIN answer_choices AS a ON q.id = a.question_id")
         .joins("LEFT OUTER JOIN
@@ -75,3 +70,27 @@ end
 #   p.id
 # HAVING
 #   COUNT(DISTINCT q.id) = COUNT(r.id)
+
+
+SELECT
+  p.*
+FROM
+  polls AS p
+JOIN
+  questions AS q
+ON
+  p.id = q.poll_id
+JOIN
+  answer_choices AS a
+ON
+  q.id = a.question_id
+LEFT OUTER JOIN
+  responses AS r
+ON
+  a.id = r.answer_id
+WHERE
+ r.user_id = 2 OR r.user_id IS NULL
+GROUP BY
+  p.id
+HAVING
+  COUNT(DISTINCT q.id) = COUNT(r.id)
