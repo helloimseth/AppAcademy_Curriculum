@@ -4,7 +4,7 @@ class Poll < ActiveRecord::Base
 
   belongs_to :author,
     class_name: 'User',
-    foreign_key: :user_id,
+    foreign_key: :author,
     primary_key: :id
 
   has_many :questions,
