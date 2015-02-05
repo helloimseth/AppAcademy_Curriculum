@@ -16,7 +16,7 @@ class Response < ActiveRecord::Base
   has_one :answered_question, through: :answer_choice, source: :question
 
   def sibling_responses
-     self.question.responses.where.not(id: self.id)
+     self.answered_question.responses.where.not(id: self.id)
   end
 
 
@@ -28,7 +28,7 @@ class Response < ActiveRecord::Base
   end
 
   def author_cant_respond_to_own_poll
-    if self.question.poll.author.id == self.user_id
+    if self.answered_question.poll.author.id == self.user_id
       errors[:base] << "you can't answer your own poll"
     end
   end
