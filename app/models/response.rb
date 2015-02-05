@@ -1,7 +1,7 @@
 class Response < ActiveRecord::Base
   validates :user_id, :answer_id, presence: true
-  validate :respondent_has_not_already_answered_question
-  validate :author_cant_respond_to_own_poll
+  # validate :respondent_has_not_already_answered_question
+  validate :author_cant_respond_to_own_poll_improved
 
   belongs_to :answer_choice,
     class_name: 'AnswerChoice',
@@ -27,8 +27,21 @@ class Response < ActiveRecord::Base
     end
   end
 
-  def author_cant_respond_to_own_poll
-    if self.answered_question.poll.author.id == self.user_id
+  # three queries
+  # def author_cant_respond_to_own_poll
+  #   if self.answered_question.poll.author.id == self.user_id
+  #     errors[:base] << "you can't answer your own poll"
+  #   end
+  # end
+
+  # one query
+  def author_cant_respond_to_own_poll_improved
+    poll_id = Poll.joins(answers: :responses)
+                  .where("responses.id = ?", 1)
+                  .first
+                  .id
+
+    if poll_id = self.user_id
       errors[:base] << "you can't answer your own poll"
     end
   end
