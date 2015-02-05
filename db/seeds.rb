@@ -21,6 +21,8 @@ qG1 = Question.create!(question_text: "What's the best grass pokemon?",
                       poll_id: poll2.id)
 qG2 = Question.create!(question_text: "What does grass beat?",
                       poll_id: poll2.id)
+qG3 = Question.create!(question_text: "Where can I find the Moon Stone?",
+                      poll_id: poll2.id)
 
 acF1a = AnswerChoice.create!(choice_text: "Charizard", question_id: qF1.id)
 acF1b = AnswerChoice.create!(choice_text: "Growlithe", question_id: qF1.id)
@@ -31,6 +33,8 @@ acG1a = AnswerChoice.create!(choice_text: "Venusaur", question_id: qG1.id)
 acG1b = AnswerChoice.create!(choice_text: "Victreebell", question_id: qG1.id)
 acG2a = AnswerChoice.create!(choice_text: "Water", question_id: qG2.id)
 acG2b = AnswerChoice.create!(choice_text: "Fire", question_id: qG2.id)
+acG3a = AnswerChoice.create!(choice_text: "Mount Moon", question_id: qG3.id)
+acG3b = AnswerChoice.create!(choice_text: "Veridian City", question_id: qG3.id)
 
 usr1r1 = Response.create!(user_id: usr1.id, answer_id: acG1a.id)
 usr1r2 = Response.create!(user_id: usr1.id, answer_id: acG2a.id)

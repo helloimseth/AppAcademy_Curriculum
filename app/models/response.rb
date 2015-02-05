@@ -13,7 +13,7 @@ class Response < ActiveRecord::Base
     foreign_key: :user_id,
     primary_key: :id
 
-  has_one :question, through: :answer_choice, source: :question
+  has_one :answered_question, through: :answer_choice, source: :question
 
   def sibling_responses
      self.question.responses.where.not(id: self.id)

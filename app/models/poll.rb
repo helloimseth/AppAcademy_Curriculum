@@ -12,4 +12,5 @@ class Poll < ActiveRecord::Base
     foreign_key: :poll_id,
     primary_key: :id
 
+
 end
