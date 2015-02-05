@@ -26,20 +26,32 @@ class Question < ActiveRecord::Base
     results
   end
 
+  def answers_and_responses
+    self.answer_choices.select("answer_choices.*, COUNT(r.id) AS response_count")
+                       .joins("LEFT OUTER JOIN responses AS r ON answer_choices.id = r.answer_id")
+                       .group("answer_choices.id")
+                       .includes(:responses)
+  end
+
   #one query
   def results
     results = Hash.new
 
-    answers_responses = self.answer_choices
-                       .select("answer_choices.*, COUNT(r.id) AS response_count")
-                       .joins("LEFT OUTER JOIN responses AS r ON answer_choices.id = r.answer_id")
-                       .group("answer_choices.id")
-
-   answers_responses.each do |answer_choice|
+    answers_and_responses.each do |answer_choice|
      results[answer_choice.choice_text] = answer_choice.response_count
-   end
+    end
 
-   results
+    results
+  end
+
+  def delete!
+    answers_and_responses.each do |answer_choice|
+      answer_choice.responses.each {|response| response.destroy!}
+      answer_choice.destroy!
+    end
+
+    self.destroy!
+    puts "It was destroyed :("
   end
 
 end

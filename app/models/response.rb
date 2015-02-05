@@ -33,13 +33,6 @@ class Response < ActiveRecord::Base
     end
   end
 
-  # three queries
-  # def author_cant_respond_to_own_poll
-  #   if self.answered_question.poll.author.id == self.user_id
-  #     errors[:base] << "you can't answer your own poll"
-  #   end
-  # end
-
   # one query
   def author_cant_respond_to_own_poll_improved
     poll_id = Poll.joins(answers: :responses)
@@ -51,5 +44,12 @@ class Response < ActiveRecord::Base
       errors[:base] << "you can't answer your own poll"
     end
   end
+  
+  # three queries
+  # def author_cant_respond_to_own_poll
+  #   if self.answered_question.poll.author.id == self.user_id
+  #     errors[:base] << "you can't answer your own poll"
+  #   end
+  # end
 
 end
