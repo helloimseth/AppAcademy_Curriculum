@@ -1,6 +1,6 @@
 class Response < ActiveRecord::Base
   validates :user_id, :answer_id, presence: true
-  # validate :respondent_has_not_already_answered_question
+  validate :respondent_has_not_already_answered_question
   validate :author_cant_respond_to_own_poll_improved
 
   belongs_to :answer_choice,
@@ -19,10 +19,16 @@ class Response < ActiveRecord::Base
      self.answered_question.responses.where.not(id: self.id)
   end
 
+  def sibling_responses_improved
+    Response.joins(:answered_question)
+            .where("answer_choices.id = ?", self.answer_id)
+            .where.not(id: self.id)
+  end
+
 
   private
   def respondent_has_not_already_answered_question
-    if sibling_responses.include?(self)
+    if sibling_responses_improved.include?(self)
       errors[:base] << "you can't answer the same question twice"
     end
   end
