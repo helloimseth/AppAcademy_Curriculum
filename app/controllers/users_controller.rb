@@ -32,9 +32,8 @@ class UsersController < ApplicationController
     index
   end
 
-
   private
-
+s
   def user_params
     params.require(:user).permit(:name, :email)
   end
