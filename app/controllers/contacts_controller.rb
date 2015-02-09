@@ -3,7 +3,7 @@ class ContactsController < ApplicationController
     contacts = Contact.joins("LEFT OUTER JOIN contact_shares
                       ON contact_shares.contact_id = contacts.id")
                       .where("contact_shares.user_id = :id
-                      OR contacts.user_id = :id", id: params[:user_id])
+                      OR contacts.user_id = :id", id: params[:user_id]).uniq
     render json: contacts
   end
 
