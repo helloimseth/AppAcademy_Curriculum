@@ -24,7 +24,7 @@ def create_user
 
   begin
     puts RestClient.post(url,
-    {user: {name: "donnie darko"}})
+    {user: {username: "donnie darko"}})
   rescue RestClient::UnprocessableEntity => e
     puts e.message
   end
@@ -67,4 +67,4 @@ def destroy_user
   puts RestClient.delete(url)
 end
 
-update_user
+create_user
