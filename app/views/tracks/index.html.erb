@@ -1,9 +1,0 @@
-<ul>
-  <% Track.all.each do |track| %>
-  <li> <a href="<%= track_url(track) %>"> <%= track.name %> </a> </li>
-  <% end %>
-</ul>
-
-<form action="<%= new_track_url%>" method="get">
-  <button>Add a new track</button>
-</form>

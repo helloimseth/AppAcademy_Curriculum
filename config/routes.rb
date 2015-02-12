@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users, only: [:new, :create, :show]
+  resources :users, only: [:new, :create]
 
   resource :session, only: [:new, :create, :destroy]
 
@@ -7,9 +7,11 @@ Rails.application.routes.draw do
     resources :albums, only: :new
   end
 
-  resources :albums, except: :new do
-    resources :tracks, except: :only
+  resources :albums, except: [:new, :index] do
+    resources :tracks, only: :new
   end
-  
-  resources :tracks, except: :new
+
+  resources :tracks, except: [:new, :index]
+
+  resources :notes, only: [:create, :destroy]
 end

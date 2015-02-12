@@ -3,6 +3,8 @@ class Track < ActiveRecord::Base
 
   belongs_to :album
 
+  has_many :notes
+
   def band_name
     self.album.band_name
   end

@@ -1,0 +1,14 @@
+<%= render "errors", band: @band %>
+<h1>Edit <%= @band.name %></h1>
+<form action="<%= bands_url  %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="put">
+
+  <%= render "form", band: @band %>
+
+  <%= submit_button %>
+</form>
+
+<form action="<%= band_url(@band) %>" method="get">
+  <button>Cancel</button>
+</form>

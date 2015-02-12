@@ -1,4 +1,5 @@
 class BandsController < ApplicationController
+  before_action :ensure_logged_in
 
   def index
 
@@ -20,6 +21,27 @@ class BandsController < ApplicationController
 
   def show
     @band = Band.find(params[:id])
+  end
+
+  def edit
+    @band = Band.find(params[:id])
+  end
+
+  def update
+    @band = Band.find(params[:id])
+
+    if @band.update(band_params)
+      redirect_to bands_url
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @band = Band.find(params[:id])
+    @band.destroy!
+
+    redirect_to bands_url
   end
 
   private

@@ -1,16 +1,46 @@
-<h1><%= @album.title %></h1>
+<%= render "errors", album: @album %>
+
+<h1> <%= @album.title %></h1>
+
+<form action="<%= edit_album_url(@album) %>" method="get">
+  <button>Edit Album</button>
+</form>
+
+<form action="<%= album_url(@album) %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="delete">
+  <button>Delete Album</button>
+</form>
+
+<br>
+
+
 
 <table>
   <% [:title, :band_name, :setting].each do |attr| %>
     <tr>
       <td> <%= attr.to_s.capitalize.gsub("_", " ") %> </td>
-      <td> <%= @album.send(attr)  %>
+      <td> <em><%= @album.send(attr)  %></em>
     </tr>
   <% end %>
 </table>
 
 <br>
 
-<form action="<%= albums_url %>" method="get">
+<h2>Track Listing</h2>
+<form action="<%= new_album_track_url(@album) %>" method="get" >
+  <button>Add New Track</button>
+</form>
+
+<ul>
+  <% @album.tracks.each do |track| %>
+  <li> <a href="<%= track_url(track) %>"> <%= track.name %> </a> </li>
+  <% end %>
+</ul>
+
+<br><br>
+
+
+<form action="<%= band_url(@album.band) %>" method="get">
   <button>Back</button>
 </form>

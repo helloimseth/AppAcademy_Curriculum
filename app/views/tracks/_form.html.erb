@@ -1,0 +1,33 @@
+<label for="track_name">Name</label><br>
+<input type="text" name="track[name]" value="<%= @track.name %>">
+
+<br><br>
+
+<label for="track_album_id">Album</label><br>
+<select name="track[album_id]">
+  <option></option>
+  <% Album.all.each do |album| %>
+    <option value="<%= album.id %>"
+      <%= "selected" if @track.album_id == album.id %> >
+      <%= album.title %>
+    </option>
+  <% end %>
+</select>
+
+<br><br>
+
+<label for="track_level">Type</label><br>
+<input type="radio" name="track[level]" value="Regular"
+<%= "checked" if @track.level == "Regular" %> >
+<label for="track_level">Regular</label>
+<br>
+<input type="radio" name="track[level]" value="Bonus"
+<%= "checked" if @track.level == "Bonus" %>>
+<label for="track_level">Bonus</label>
+
+<br><br>
+
+<label for="track_lyrics">Lyrics</label><br>
+<textarea name="track[lyrics]" value="<%= @track.lyrics %>" rows="8" cols="40">
+  <%= @track.lyrics %>
+</textarea>

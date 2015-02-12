@@ -1,36 +1,14 @@
+<%= render "errors", album: @album %>
+
 <h1>Add Album</h1>
 <form action="<%= albums_url  %>" method="post">
   <%= auth_token %>
 
-  <label for="album_title">Title</label><br>
-  <input type="text" name="album[title]">
-
-  <br><br>
-
-  <label for="album_band_id">Band</label><br>
-  <select name="album[band_id]">
-    <option></option>
-    <% Band.all.each do |band| %>
-      <option value="<%= band.id %>"
-        <%= "selected" if @album.band_id == band.id %> >
-        <%= band.name %>
-      </option>
-    <% end %>
-  </select>
-
-  <br><br>
-
-  <label for="album_setting">Type</label><br>
-  <input type="radio" name="album[setting]" value="Studio">
-  <label for="album_setting">Studio</label>
-  <br>
-  <input type="radio" name="album[setting]" value="Live">
-  <label for="album_setting">Live</label>
-  <br>
-  <input type="radio" name="album[setting]" value="Compilation">
-  <label for="album_setting">Compilation</label>
-
-  <br><br>
+  <%= render "form", album: @album  %>
 
   <%= submit_button %>
+</form>
+
+<form action="<%= band_url(params[:band_id].to_i) %>" method="get">
+  <button>Cancel</button>
 </form>

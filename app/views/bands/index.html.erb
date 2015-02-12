@@ -1,3 +1,5 @@
+<h1>Music Inventory</h1>
+
 <ul>
   <% Band.all.each do |band| %>
   <li> <a href="<%= band_url(band) %>"> <%= band.name %> </a> </li>

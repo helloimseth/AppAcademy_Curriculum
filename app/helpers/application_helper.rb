@@ -48,4 +48,12 @@ module ApplicationHelper
     HTML
   end
 
+  def ugly_lyrics(lyrics)
+    <<-HTML.html_safe
+        <pre>&#9835; #{lyrics.chomp.gsub("\n", "\n&#9835; ")}</pre>
+    HTML
+  end
+
+
+
 end

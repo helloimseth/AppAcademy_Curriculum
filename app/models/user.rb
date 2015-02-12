@@ -6,11 +6,18 @@ class User  < ActiveRecord::Base
   validates :email, :password_digest, :session_token, presence: true
   validates :password, length: { minimum: 8, allow_nil: true }
 
-  after_initialize :ensure_session_token
+  after_initialize :ensure_session_token, :default_to_inactive
+
+  has_many :notes,
+    class_name: "Note",
+    foreign_key: :user_id,
+    primary_key: :id
 
   def self.find_by_credentials(em, pw)
     user = User.find_by(email: em)
 
+    return nil if user.nil?
+    
     user.is_password?(pw) ? user : nil
   end
 
@@ -27,6 +34,10 @@ class User  < ActiveRecord::Base
     BCrypt::Password.new(password_digest) == password
   end
 
+  def inactive?
+    activated == false
+  end
+
   private
     def ensure_session_token
       generate_session_token if self.session_token.nil?
@@ -39,4 +50,9 @@ class User  < ActiveRecord::Base
     def make_new_token
       SecureRandom::urlsafe_base64
     end
+
+    def default_to_inactive
+      self.activated = false
+    end
+
 end
