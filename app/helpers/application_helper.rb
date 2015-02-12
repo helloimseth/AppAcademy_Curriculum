@@ -42,4 +42,10 @@ module ApplicationHelper
     HTML
   end
 
+  def submit_button
+    <<-HTML.html_safe
+      <input type="submit" value="Submit">
+    HTML
+  end
+
 end
