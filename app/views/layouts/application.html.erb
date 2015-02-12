@@ -8,6 +8,8 @@
 </head>
 <body>
 
+<%= flash[:notice] unless flash[:notice].nil? %>
+
 <%= logged_in? ? log_out_button : log_in_button %>
 
 <%= yield %>

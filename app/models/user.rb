@@ -6,18 +6,16 @@ class User  < ActiveRecord::Base
   validates :email, :password_digest, :session_token, presence: true
   validates :password, length: { minimum: 8, allow_nil: true }
 
-  after_initialize :ensure_session_token, :default_to_inactive
+  after_initialize :ensure_session_token,
+                   :default_to_inactive
 
-  has_many :notes,
-    class_name: "Note",
-    foreign_key: :user_id,
-    primary_key: :id
+  has_many :notes
 
   def self.find_by_credentials(em, pw)
     user = User.find_by(email: em)
 
     return nil if user.nil?
-    
+
     user.is_password?(pw) ? user : nil
   end
 
@@ -36,6 +34,11 @@ class User  < ActiveRecord::Base
 
   def inactive?
     activated == false
+  end
+
+  def generate_activation_token!
+    self.activation_token = make_new_token
+    self.save!
   end
 
   private

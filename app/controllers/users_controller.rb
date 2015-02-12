@@ -12,10 +12,24 @@ class UsersController < ApplicationController
                         click the link in the body of the email to activate
                         your acount."
 
+      @user.generate_activation_token!
+      msg = UserMailer.activation_email(@user)
+      msg.deliver
+
       redirect_to new_user_url
     else
       render :new
     end
+  end
+
+  def activate
+    @user = User.find_by(activation_token: params[:activation_token])
+    @user.toggle(:activated)
+    log_in(@user)
+
+    flash[:notice] = "Welcome, #{@user.email}!"
+
+    redirect_to bands_url
   end
 
   private
