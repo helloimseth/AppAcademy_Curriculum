@@ -8,6 +8,8 @@
 </head>
 <body>
 
+<%= logged_in? ? log_out_button : log_in_button %>
+
 <%= yield %>
 
 </body>

@@ -24,4 +24,22 @@ module ApplicationHelper
     HTML
   end
 
+  def log_in_button
+    <<-HTML.html_safe
+      <form action="#{new_session_url}" method="get">
+        <button>Log In</button>
+      </form>
+    HTML
+  end
+
+  def log_out_button
+    <<-HTML.html_safe
+      <form action="#{session_url}" method="post">
+        <input type="hidden" name="_method" value="delete">
+        #{auth_token}
+        <button>Log Out</button>
+      </form>
+    HTML
+  end
+
 end
