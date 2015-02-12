@@ -3,7 +3,7 @@ class Track < ActiveRecord::Base
 
   belongs_to :album
 
-  def band
-    self.album.band
+  def band_name
+    self.album.band_name
   end
 end

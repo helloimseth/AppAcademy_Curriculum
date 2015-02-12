@@ -1,9 +1,9 @@
 <ul>
-  <% @albums.each do |album| %>
+  <% Album.all.each do |album| %>
   <li> <a href="<%= album_url(album) %>"> <%= album.title %> </a> </li>
   <% end %>
 </ul>
 
-<form action="<%=  new_band_url%>" method="get">
+<form action="<%=  new_album_url%>" method="get">
   <button>Add a new album</button>
 </form>

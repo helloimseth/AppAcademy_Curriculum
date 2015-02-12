@@ -1,7 +1,7 @@
 class AlbumsController < ApplicationController
 
   def index
-    @albums = Album.where(band_id: params[:band_id])
+
   end
 
   def new
@@ -16,6 +16,10 @@ class AlbumsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def show
+    @album = Album.find(params[:id])
   end
 
 
