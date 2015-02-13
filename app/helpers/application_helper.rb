@@ -1,4 +1,4 @@
-module ApplicationHelper
+module ApplicationHelper    #add chunks of html code, only accessible in views
   def auth_token
     <<-HTML.html_safe
       <input type="hidden"
@@ -15,8 +15,8 @@ module ApplicationHelper
   end
   def login_button
     <<-HTML.html_safe
-      <form action="#{session_url}"
-            method="post">
+      <form action="#{new_session_url}"
+            method="get">
             #{auth_token}
             <button>Log in</button>
       </form>

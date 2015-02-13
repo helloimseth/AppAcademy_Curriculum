@@ -11,8 +11,10 @@ class User < ActiveRecord::Base
   has_many :moderated_subs,
     class_name: "Sub",
     foreign_key: :mod_id,
-    primary_key: :id
+    primary_key: :id,
     inverse_of: :moderator
+
+  has_many :posts, dependent: :destroy
 
   def self.find_by_credentials(email, password)
     user = User.find_by(email: email)

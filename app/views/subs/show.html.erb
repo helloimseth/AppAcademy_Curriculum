@@ -1,0 +1,21 @@
+<h1><%= @sub.title %></h1>
+<h2><%= @sub.description %></h2>
+
+<form action="<%=new_post_url%>" method="get">
+  <input type="hidden" name="sub_id" value="<%=@sub.id%>">
+  <!--  hidden input sends @sub.id to params hash to be used in PostsController-->
+  <button>Add new post</button>
+</form>
+
+<% if is_moderator? %>
+  <form action="<%= edit_sub_url(@sub) %>" method="get">
+    <button> Edit Sub </button>
+  </form>
+
+  <form action="<%= sub_url(@sub) %>" method="post">
+    <%= auth_token %>
+    <input type="hidden" name="_method" value="delete">
+
+    <button> Delete Sub </button>
+  </form>
+<% end %>
