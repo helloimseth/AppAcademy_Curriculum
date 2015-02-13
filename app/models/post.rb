@@ -5,7 +5,7 @@ class Post < ActiveRecord::Base
 
   belongs_to :sub
 
-
+  has_many :post_subs
 
 
 end
