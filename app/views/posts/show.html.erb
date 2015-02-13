@@ -1,0 +1,17 @@
+<h1>
+  <% if @post.url %><a href="<%= @post.url %>"> <% end %>
+    <%= @post.title %>
+  <% if @post.url %></a> <% end %>
+</h1>
+<%=  %>
+<% if @post.content %>
+  <p>
+    <%= @post.content %>
+  </p>
+<% end %>
+
+<% if is_author? %>
+  <form action="<%= edit_post_url %>" method="get">
+    <button>Edit Post</button>
+  </form>
+<% end %>
