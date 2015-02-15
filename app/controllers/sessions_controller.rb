@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
                                      params[:user][:password])
     if @user
       log_in(@user)
-      redirect_to user_url(@user)
+      redirect_to subs_url
     else
       @user = User.new
       @user.email = params[:user][:email]

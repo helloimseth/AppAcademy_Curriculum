@@ -2,22 +2,18 @@ class PostsController < ApplicationController
   helper_method :current_post, :is_author?
 
   def new
-    # sub = Sub.find(params[:sub_id]) #go to subs/show.html.erb
-    # takes sub_id from params hash and puts corresponding Sub object into
-    # local variable to give to instance variable of post so that it can be
-    # sent to posts/new.html.erb view
-    @post = Posts.new
+    @post = Post.new
+    @subs = Sub.all
   end
 
   def create
     @post = current_user.posts.new(post_params)
-    # @post.sub_id = params[:sub_id]
-    # sets @post.sub_id to the sub_id passed from the new.html.erb form
-    # journey of sub_id:
-    # sub show view => postscontroller#new action => posts new view => posts#create action
+
     if @post.save
+      @post.sub_ids = params[:post][:sub_ids]
       redirect_to post_url(@post)
     else
+      @subs = Sub.all
       render :new
     end
   end
@@ -28,14 +24,17 @@ class PostsController < ApplicationController
 
   def edit
     @post = current_post
+    @subs = Sub.all
   end
 
   def update
     @post = current_post
 
     if @post.update(post_params)
+      @post.sub_ids = params[:post][:sub_ids]
       redirect_to post_url(@post)
     else
+      @subs = Sub.all
       render :edit
     end
   end
@@ -44,7 +43,7 @@ class PostsController < ApplicationController
 private
 
   def post_params
-    params.require(:post).permit(:title, :url, :content, :user_id)
+    params.require(:post).permit(:title, :url, :content, :user_id, :sub_ids)
   end
 
   def current_post

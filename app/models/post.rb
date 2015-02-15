@@ -1,11 +1,11 @@
 class Post < ActiveRecord::Base
-  validates :sub_id, :user_id, :title, presence: true
+  validates :user_id, :title, presence: true
 
   belongs_to :user
 
-  belongs_to :sub
-
   has_many :post_subs
+
+  has_many :subs, through: :post_subs, source: :sub
 
 
 end
