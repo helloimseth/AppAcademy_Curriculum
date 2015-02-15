@@ -9,4 +9,14 @@ class Post < ActiveRecord::Base
 
   has_many :comments, dependent: :destroy
 
+  def comments_by_parent_id
+    comments_hash = Hash.new {|h,k| h[k] = []}
+    comments_arr = self.comments
+
+    comments_arr.each do |comment|
+      comments_hash[comment.parent_id] << comment
+    end
+
+    comments_hash
+  end
 end

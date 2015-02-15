@@ -20,7 +20,7 @@ class PostsController < ApplicationController
 
   def show
     @post = current_post
-    @comments = @post.comments
+    @comments = @post.comments_by_parent_id
   end
 
   def edit

@@ -23,8 +23,7 @@
   <%= submit_button %>
 </form>
 
-<% @comments.each do |comment| %>
-  <% next unless comment.parent_id.nil? %>
+<% @comments[nil].each do |comment| %>
   <%= render "comments/comment", comment: comment %>
 <% end %>
 <a href="<%= subs_url %>">Back To Subs</a>

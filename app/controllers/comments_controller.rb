@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
 
   def show
     @comment = Comment.find(params[:id])
-    @comments = @comment.child_comments
+    @comments = @comment.post.comments_by_parent_id
   end
 
   private
