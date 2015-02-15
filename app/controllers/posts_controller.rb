@@ -20,6 +20,7 @@ class PostsController < ApplicationController
 
   def show
     @post = current_post
+    @comments = @post.comments
   end
 
   def edit
