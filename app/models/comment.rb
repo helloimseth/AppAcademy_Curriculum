@@ -7,4 +7,14 @@ class Comment < ActiveRecord::Base
     primary_key: :id
 
   belongs_to :post
+
+  has_many :child_comments,
+    class_name: "Comment",
+    foreign_key: :parent_id,
+    primary_key: :id
+
+  belongs_to :parent,
+    class_name: "Comment",
+    foreign_key: :parent_id,
+    primary_key: :id
 end

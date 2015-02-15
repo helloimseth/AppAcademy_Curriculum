@@ -23,8 +23,7 @@
   <%= submit_button %>
 </form>
 
-<% @post.comments.each do |comment| %>
-  <%= comment.content %><br>
-  <em><%= time_ago_in_words(comment.created_at) %> ago</em><br><br>
+<% @post.comments.where(parent_id: nil).each do |comment| %>
+  <%= render "comments/comment", comment: comment %>
 <% end %>
 <a href="<%= subs_url %>">Back To Subs</a>
