@@ -7,5 +7,6 @@ class Post < ActiveRecord::Base
 
   has_many :subs, through: :post_subs, source: :sub
 
+  has_many :comments, dependent: :destroy
 
 end

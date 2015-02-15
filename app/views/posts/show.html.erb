@@ -5,9 +5,7 @@
 </h1>
 <%=  %>
 <% if @post.content %>
-  <p>
     <%= @post.content %>
-  </p>
 <% end %>
 
 <% if is_author? %>
@@ -16,4 +14,17 @@
   </form>
 <% end %>
 <br><br>
+<h2>Comments</h2>
+<form class="" action="<%=comments_url %>" method="post">
+  Add Comment <br><br>
+  <%= auth_token %>
+  <textarea name="comment[content]" rows="4" cols="30"></textarea>
+  <input type="hidden" name="comment[post_id]" value="<%= @post.id %>">
+  <%= submit_button %>
+</form>
+
+<% @post.comments.each do |comment| %>
+  <%= comment.content %><br>
+  <em><%= time_ago_in_words(comment.created_at) %> ago</em><br><br>
+<% end %>
 <a href="<%= subs_url %>">Back To Subs</a>

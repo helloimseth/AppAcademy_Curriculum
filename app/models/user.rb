@@ -14,6 +14,12 @@ class User < ActiveRecord::Base
     primary_key: :id,
     inverse_of: :moderator
 
+  has_many :comments,
+    class_name: "Comment",
+    foreign_key: :author_id,
+    primary_key: :id,
+    dependent: :destroy
+
   has_many :posts, dependent: :destroy
 
   def self.find_by_credentials(email, password)
