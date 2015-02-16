@@ -18,6 +18,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+  
+    if @user == current_user
+      @goals = @user.goals
+    else
+      @goals = @user.goals.where(privacy: 'Public')
+    end
   end
 
 end

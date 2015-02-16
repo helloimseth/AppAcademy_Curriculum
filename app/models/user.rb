@@ -6,6 +6,13 @@ class User < ActiveRecord::Base
 
   after_initialize :ensure_session_token
 
+  has_many :goals,
+    class_name: "Goal",
+    foreign_key: :user_id,
+    primary_key: :id,
+    inverse_of: :user,
+    dependent: :destroy
+
   attr_reader :password
 
   def self.find_by_credentials(username, password)
