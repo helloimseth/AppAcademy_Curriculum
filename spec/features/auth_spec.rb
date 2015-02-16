@@ -9,14 +9,9 @@ feature "the signup process" do
   end
 
   feature "signing up a user" do
-    before(:each) do
-      visit new_user_url
-      fill_in('Username', with: 'raddude33')
-      fill_in('Password', with: 'kiracohen1')
-      click_button('Sign Up')
-    end
 
     scenario "shows username on the homepage after signup" do
+      sign_up_user("raddude33", "kiracohen1")
       expect(page).to have_content('raddude33')
     end
 
@@ -26,14 +21,28 @@ end
 
 feature "logging in" do
 
-  it "shows username on the homepage after login"
+  scenario "shows username on the homepage after login" do
+    user = FactoryGirl.create(:user)
+    log_in_user(user.username, 'kiracohen1')
+    expect(page).to have_content(user.username)
+  end
 
 end
 
 feature "logging out" do
+  before(:each) do
+    user = FactoryGirl.create(:user)
+  end
 
-  it "begins with logged out state"
+  scenario "begins \with logged out state" do
+    visit new_session_url
+    expect(page).to_not have_content(user.username)
+  end
 
-  it "doesn't show username on the homepage after logout"
+  scenario "doesn't show username on the homepage after logout" do
+    log_in_user(user.username, 'kiracohen1')
+    click_button('Log Out')
+    expect(page).to_not have_content(user.username)
+  end
 
 end
