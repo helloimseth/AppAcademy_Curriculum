@@ -30,11 +30,9 @@ feature "logging in" do
 end
 
 feature "logging out" do
-  before(:each) do
-    user = FactoryGirl.create(:user)
-  end
+  let(:user) {FactoryGirl.create(:user)}
 
-  scenario "begins \with logged out state" do
+  scenario "begins with logged out state" do
     visit new_session_url
     expect(page).to_not have_content(user.username)
   end
