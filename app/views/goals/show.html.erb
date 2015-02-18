@@ -5,3 +5,17 @@ to get your <%= @goal.title %> goal on</h1>
 <br>
 <br>
 <%= @goal.notes %>
+<br>
+<br>
+<form action="<%= comments_url %>" method="post">
+  <%= auth_token %>
+  <textarea name="comment[comment]" rows="4" cols="40"></textarea>
+  <input type="hidden" name="comment[commentable_id]" value="<%= @goal.id %>">
+  <input type="hidden" name="comment[commentable_type]" value="Goal">
+  <button>Add Comment</button>
+</form>
+<% @comments.each do |comment| %>
+  <%= comment.comment %><br>
+  <em> from <%= comment.author.username %>,
+            <%= time_ago_in_words(comment.created_at)%> ago </em>
+<% end %>

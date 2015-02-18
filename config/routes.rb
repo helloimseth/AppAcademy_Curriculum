@@ -4,4 +4,8 @@ Rails.application.routes.draw do
   resource :session, only: [:new, :create, :destroy]
 
   resources :goals
+
+  resources :comments, only: [:create, :destroy]
+
+  root to: 'goals#index'
 end

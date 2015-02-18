@@ -52,4 +52,6 @@ group :test do
   gem 'guard-rspec'
   gem 'capybara'
   gem 'faker'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
