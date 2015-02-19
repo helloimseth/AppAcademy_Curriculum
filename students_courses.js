@@ -11,20 +11,26 @@ Array.prototype.includes = function (val) {
 var Student = function(name){
   this.name = name;
   this.courses = [];
-  this.enroll = function(course) {
-    if (!this.courses.includes(course)) {
-      this.courses.push(course);
-      course.add_student(this);
-    }
-  };
-}
+  this.courseLoad = {};
+};
 
-var Course = function(name, department, numCredits) {
+Student.prototype.enroll = function(course) {
+  if (!this.courses.includes(course)) {
+    this.courses.push(course);
+    this.courseLoad[course.name] = course.numCredits
+    course.add_student(this);
+  }
+};
+
+var Course = function(name, department, numCredits, day, time) {
   this.name = name;
   this.department = department;
   this.numCredits = numCredits;
+  this.day = day;
+  this.time = time;
   this.students = [];
-  this.add_student = function(student){
-    this.students.push(student);
-  };
-}
+};
+
+Course.prototype.add_student = function(student){
+  this.students.push(student);
+};
