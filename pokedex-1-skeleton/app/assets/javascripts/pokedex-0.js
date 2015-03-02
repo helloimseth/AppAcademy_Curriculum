@@ -25,7 +25,7 @@ window.Pokedex.Models.Pokemon = Backbone.Model.extend({
 });
 
 Pokedex.Models.Toy = Backbone.Model.extend({
-
+  urlRoot: "/toys"
 })
 
 window.Pokedex.Collections.Pokemon = Backbone.Collection.extend({
