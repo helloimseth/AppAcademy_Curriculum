@@ -81,6 +81,12 @@ window.Pokedex.RootView = function ($el) {
     ".toys > li",
     this.selectToyFromList.bind(this)
   );
+
+  this.$toyDetail.on(
+    "change",
+    ".owner-selector",
+    this.reassignToy.bind(this)
+  );
 };
 
 $(function() {
