@@ -60,22 +60,28 @@ Pokedex.RootView.prototype.selectToyFromList = function (event) {
 };
 
 Pokedex.RootView.prototype.reassignToy = function (event) {
-  var newOwnerId = $(event.currentTarget).val()
-  var initialOwnerId = $(event.currentTarget).data("pokemon_id")
-  var toyId = $(event.currentTarget).data("toy_id")
+  var newOwnerId = $(event.currentTarget).val();
+  var initialOwnerId = $(event.currentTarget).data("pokemon_id");
+  var initialOwner = this.pokes.where({id: parseInt(initialOwnerId)})[0];
+  console.log(initialOwner.toys());
+  var toyId = $(event.currentTarget).data("toy_id");
   var toy = new Pokedex.Models.Toy({id: toyId, pokemon_id: newOwnerId});
+
   toy.save({}, {
     success: function () {
-      var poke1 = new Pokedex.Models.Pokemon({id: initialOwnerId});
-      poke1.fetch({
-        success: function () {
-          poke1.toys().remove(toy);
-          this.renderPokemonDetail(poke1);
-        }.bind(this)
-      });
-      
-      this.$toyDetail.html("")
+      initialOwner.toys().remove(toy);
+      // console.log(initialOwner.toys());
+      this.renderToysList(initialOwner.toys());
+      this.$toyDetail.html("");
     }.bind(this)
   });
 
-}
+};
+
+Pokedex.RootView.prototype.renderToysList = function (toys) {
+  this.$pokeDetail.find(".toys").html("");
+  toys.each(function (toy) {
+    this.addToyToList(toy);
+  }.bind(this));
+
+};
