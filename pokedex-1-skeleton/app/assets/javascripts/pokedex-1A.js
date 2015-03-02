@@ -1,20 +1,16 @@
 Pokedex.RootView.prototype.addPokemonToList = function (pokemon) {
-  var $li = $('<li>');
-
-  $li.text(pokemon.escape("name") + " - " + pokemon.escape("poke_type")).addClass('poke-list-item');
-  $li.data("id", pokemon.id);
-
-  this.$pokeList.append($li);
+  $('<li>')
+    .text(pokemon.escape("name") + " - " + pokemon.escape("poke_type"))
+    .addClass('poke-list-item')
+    .data("id", pokemon.id)
+    .appendTo(this.$pokeList);
 };
 
 Pokedex.RootView.prototype.refreshPokemon = function (callback) {
-  if(!callback) {
-    callback = this.addPokemonToList.bind(this);
-  }
 
   this.pokes.fetch({
     success: function (pokes) {
-      pokes.each(callback)
-    }
+      pokes.each(this.addPokemonToList.bind(this))
+    }.bind(this)
   });
 };
