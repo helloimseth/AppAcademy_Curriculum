@@ -114,3 +114,8 @@ body {
   max-width: 300px;
   max-height: 200px;
 }
+
+.detail ul {
+  float: left;
+  padding-left: 10px;
+}

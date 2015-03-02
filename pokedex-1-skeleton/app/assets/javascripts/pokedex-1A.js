@@ -2,6 +2,8 @@ Pokedex.RootView.prototype.addPokemonToList = function (pokemon) {
   var $li = $('<li>');
 
   $li.text(pokemon.escape("name") + " - " + pokemon.escape("poke_type")).addClass('poke-list-item');
+  $li.data("id", pokemon.id);
+
   this.$pokeList.append($li);
 };
 

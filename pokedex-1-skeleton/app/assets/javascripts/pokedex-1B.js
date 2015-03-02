@@ -9,17 +9,13 @@ Pokedex.RootView.prototype.renderPokemonDetail = function (pokemon) {
     }
   })
   $article.append($ul);
-  this.$pokeDetail.append($article);
+  this.$pokeDetail.html($article);
 };
 
 Pokedex.RootView.prototype.selectPokemonFromList = function (event) {
+  var $target = $(event.currentTarget);
+  var pokemon = new Pokedex.Models.Pokemon({id: $target.data("id")});
+  pokemon.fetch({
+    success: this.renderPokemonDetail.bind(this)
+  });
 };
-//
-//
-// { "id":1,
-//   "attack":125,
-//   "defense":100,
-//   "image_url":"/assets/pokemon_snaps/127.png",
-//   "moves":["vicegrip"],
-//   "name":"Pinsir",
-//   "poke_type":"bug" }
