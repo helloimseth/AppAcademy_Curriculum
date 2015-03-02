@@ -87,6 +87,12 @@ window.Pokedex.RootView = function ($el) {
     ".owner-selector",
     this.reassignToy.bind(this)
   );
+
+  this.$pokeDetail.on(
+    "click",
+    ".destroy",
+    this.removePokemon.bind(this)
+  );
 };
 
 $(function() {

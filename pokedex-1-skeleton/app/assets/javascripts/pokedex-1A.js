@@ -7,7 +7,7 @@ Pokedex.RootView.prototype.addPokemonToList = function (pokemon) {
 };
 
 Pokedex.RootView.prototype.refreshPokemon = function (callback) {
-
+  this.$pokeList.html("")
   this.pokes.fetch({
     success: function (pokes) {
       pokes.each(this.addPokemonToList.bind(this))
