@@ -9,7 +9,7 @@ window.Journails = {
 
     this.router = new Journails.Routers.PostsRouter({
       posts: posts,
-      $el: $('.container')
+      $el: $('body')
     });
 
     Backbone.history.start();

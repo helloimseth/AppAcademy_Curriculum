@@ -25,7 +25,7 @@ Journails.Views.PostForm = Backbone.View.extend({
 
     this.model.save(attrs, {
       success: function () {
-        this.collection && this.collection.add(this.model);
+        this.collection && this.collection.add(this.model, { merge: true });
         Backbone.history.navigate('' ,{ 'trigger': true } )
       }.bind(this),
       error: function (model, response) {

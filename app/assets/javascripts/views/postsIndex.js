@@ -1,10 +1,10 @@
 Journails.Views.PostsIndex = Backbone.View.extend({
-  tagName: 'section',
+  tagName: 'nav',
 
   template: JST['postsIndex'],
 
   initialize: function (options) {
-    this.posts = options.posts
+    this.posts = options.posts;
     this.listenTo(this.posts, "remove sync", this.render)
   },
 

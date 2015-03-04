@@ -8,7 +8,9 @@ Journails.Views.PostShow = Backbone.View.extend({
   },
 
   events: {
-    "click .edit-post": "renderPostEdit"
+    // "click .edit-post": "renderPostEdit",
+    "dblclick h1, p": "renderEditField",
+    "blur input, textarea": "saveField"
   },
 
   render: function () {
@@ -19,10 +21,35 @@ Journails.Views.PostShow = Backbone.View.extend({
     return this;
   },
 
-  renderPostEdit: function(){
-    Backbone.history.navigate(
-      '/posts/' + this.model.id + '/edit',
-      { "trigger": true }
-    )
+  renderEditField: function (event) {
+    event.preventDefault();
+
+    var $editField;
+    this.$target = $(event.currentTarget);
+
+    $editField = this.$target.data("column") === 'title' ? $('<input>') : $('<textarea>');
+
+    $editField.val(this.$target.text()).data("column",this.$target.data('column'))
+    this.$target.replaceWith($editField);
+  },
+
+  saveField: function (event) {
+    var $target = $(event.currentTarget);
+
+    this.model.set($target.data("column"), $target.val());
+
+    this.model.save({}, {
+      success: function () {
+        this.$target.text($target.val());
+        $target.replaceWith(this.$target);
+      }.bind(this),
+      error: function (model, response) {
+        // var errors = JSON.parse(response.responseText);
+
+        $target.replaceWith(this.$target);
+      }.bind(this)
+    });
+
+
   }
 });
