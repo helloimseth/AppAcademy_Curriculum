@@ -4,17 +4,21 @@ Journails.Collections.Posts = Backbone.Collection.extend({
   model: Journails.Models.Post,
 
   getOrFetch: function (id) {
-    if (this.find(id) === 'undefined') {
-      var post = new Journails.Models.Post({ id: id });
+    var success,
+        post = this.get(id);
 
-      post.fetch({
-        success: function (){
-          this.add(post);
-          return post;
-        }
-      }.bind(this));
-    } else {
-      return this.get(id)
+    if (!post) {
+      post = new Journails.Models.Post({ id: id });
+
+      success = function () {
+        this.add(post);
+      }.bind(this)
     }
+
+    post.fetch({
+      success: success
+    });
+
+    return post;
   }
 });

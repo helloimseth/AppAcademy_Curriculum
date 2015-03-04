@@ -1,10 +1,6 @@
 Journails.Views.PostsIndex = Backbone.View.extend({
   tagName: 'ul',
 
-  events: {
-
-  },
-
   initialize: function (options) {
     this.posts = options.posts
     this.listenTo(this.posts, "remove sync", this.render)
