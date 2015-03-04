@@ -1,7 +1,9 @@
 Journails.Routers.PostsRouter = Backbone.Router.extend({
   routes: {
     "": "renderPostsIndex",
-    "posts/:id": "renderPostShow"
+    "posts/new": "renderPostNew",
+    "posts/:id": "renderPostShow",
+    "posts/:id/edit": "renderPostEdit"
   },
 
   initialize: function (options) {
@@ -21,6 +23,25 @@ Journails.Routers.PostsRouter = Backbone.Router.extend({
     var postShow = new Journails.Views.PostShow({ model: post });
 
     this._swapView(postShow);
+  },
+
+  renderPostEdit: function (id) {
+    var post = this._posts.getOrFetch(id);
+
+    var postEdit = new Journails.Views.PostForm({ model: post });
+
+    this._swapView(postEdit);
+  },
+
+  renderPostNew: function () {
+    var post = new Journails.Models.Post({});
+
+    var postNew = new Journails.Views.PostForm({
+      model: post,
+      collection: this._posts
+    });
+
+    this._swapView(postNew);
   },
 
   _swapView: function(view) {
