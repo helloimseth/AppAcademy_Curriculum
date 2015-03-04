@@ -8,7 +8,7 @@ Journails.Views.PostForm = Backbone.View.extend({
   },
 
   initialize: function () {
-    this.listenTo(this.model, "sync", this.render.bind(this, this.model, null));
+    // this.listenTo(this.model, "sync", this.render.bind(this, this.model, null));
   },
 
   render: function (post, errors) {
@@ -25,7 +25,7 @@ Journails.Views.PostForm = Backbone.View.extend({
 
     this.model.save(attrs, {
       success: function () {
-        this.collection && this.collection.add(this.model, { merge: true });
+        this.collection.add(this.model);
         Backbone.history.navigate('' ,{ 'trigger': true } )
       }.bind(this),
       error: function (model, response) {

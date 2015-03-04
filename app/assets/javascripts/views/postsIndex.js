@@ -5,7 +5,8 @@ Journails.Views.PostsIndex = Backbone.View.extend({
 
   initialize: function (options) {
     this.posts = options.posts;
-    this.listenTo(this.posts, "remove sync", this.render)
+    this.listenTo(this.posts, "remove sync", this.render);
+    this.subViews = [];
   },
 
   events: {
@@ -18,6 +19,7 @@ Journails.Views.PostsIndex = Backbone.View.extend({
 
     this.posts.each(function (post) {
       var postIndexItem = new Journails.Views.PostsIndexItem({ post: post });
+      this.subViews.push(postIndexItem);
 
       this.$el.find('.post-list').append(postIndexItem.render().$el);
     }.bind(this));
@@ -31,5 +33,12 @@ Journails.Views.PostsIndex = Backbone.View.extend({
       '/posts/new',
       { "trigger": true }
     )
+  },
+
+  remove: function () {
+    this.subViews.forEach(function(subView){
+      Backbone.View.prototype.remove.call(subView)
+    })
+    Backbone.View.prototype.remove.call(this);
   }
 });
