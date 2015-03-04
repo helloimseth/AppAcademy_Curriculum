@@ -1,0 +1,25 @@
+<% if (errors) { %>
+  <ul>
+    <% _(errors).each(function (error) { %>
+      <li><%= error %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<% if (!post.isNew()) { %>
+  <input type="hidden" name="post[id]" value="<%= post.id %>">
+<% } %>
+
+<label for="post-title">Title</label><br>
+<input type="text"
+       id="post-title"
+       name="post[title]"
+       value="<%= post.escape('title') %>">
+
+<label for="post-body">Body</label><br>
+<textarea name="post[body]"
+          id="post-body"
+          rows="8"
+          cols="40"><%= post.escape('body') %></textarea>
+
+<button name="submit"><%= post.isNew() ? "Create" : "Update" %></button>
