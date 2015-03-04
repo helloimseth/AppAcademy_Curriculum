@@ -8,13 +8,17 @@ Journails.Routers.PostsRouter = Backbone.Router.extend({
 
   initialize: function (options) {
     this.$el = options.$el;
+    this.$elSidebar = this.$el.find('.sidebar');
+    this.$elContent = this.$el.find('.content');
     this._posts = options.posts;
+
+    this.renderPostsIndex();
   },
 
   renderPostsIndex: function () {
     var postsIndex = new Journails.Views.PostsIndex({ posts: this._posts });
-
-    this._swapView(postsIndex);
+    this.$elContent.empty();
+    this.$elSidebar.html(postsIndex.$el);
   },
 
   renderPostShow: function (id) {
@@ -47,6 +51,6 @@ Journails.Routers.PostsRouter = Backbone.Router.extend({
   _swapView: function(view) {
     this._currentView && this._currentView.remove();
     this._currentView = view;
-    this.$el.html(view.render().$el)
+    this.$elContent.html(view.render().$el);
   }
 });
