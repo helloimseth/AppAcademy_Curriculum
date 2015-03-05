@@ -9,7 +9,6 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 1.2'
 gem 'backbone-on-rails'
 gem 'simple-rss'
-gem 'backbone-on-rails'
 gem 'ejs'
 
 group :doc do
