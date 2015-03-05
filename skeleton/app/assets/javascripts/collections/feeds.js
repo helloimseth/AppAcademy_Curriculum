@@ -1,6 +1,10 @@
 NewsReader.Collections.Feeds = Backbone.Collection.extend({
   url: "/api/feeds",
 
+  comparator: function (model) {
+    return model.get('title').length;
+  },
+
   model: NewsReader.Models.Feed,
 
   getOrFetch: function (id) {

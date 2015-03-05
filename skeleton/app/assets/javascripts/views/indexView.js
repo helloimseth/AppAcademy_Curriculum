@@ -18,7 +18,7 @@ NewsReader.Views.IndexView = Backbone.View.extend({
     this.$el.html(this.template());
     this.$ul = this.$el.find('#feed-list');
 
-    this.collection.each(function(feed){
+    this.collection.sort().each(function(feed){
       var indexItemView = new NewsReader.Views.IndexItemViews({
         model: feed
       });
