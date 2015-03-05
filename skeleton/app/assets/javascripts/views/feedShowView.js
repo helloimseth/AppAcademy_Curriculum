@@ -10,20 +10,29 @@ NewsReader.Views.FeedShowView = Backbone.View.extend({
 
   render: function () {
     this.$el.empty();
+
     var template = this.template({
       feed: this.model
     });
     this.$el.append(template);
+
+    renderEntries();
+
+    return this;
+  },
+
+  renderEntries: function () {
     var $ul = this.$el.find("#feed-entries");
 
     this.model.entries().each(function(entry){
       var subView = new NewsReader.Views.EntryItemView({
         model: entry
       });
+
       $ul.append(subView.render().$el);
+
       this._subViews.push(subView);
-    }.bind(this));
-    return this;
+    }.bind(this));  
   },
 
   remove: function () {
