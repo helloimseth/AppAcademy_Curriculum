@@ -2,17 +2,21 @@ NewsReader.Views.IndexView = Backbone.View.extend({
 
   initialize: function () {
     this._subViews = [];
-    this.$el.append($('<ul>'));
-    this.$ul = this.$el.find('ul');
-
-    this.listenTo(this.collection, "sync remove", this.render);
+    this.listenTo(this.collection, "sync remove add", this.render);
   },
 
   tagName: "section",
 
+  template: JST['index'],
+
+  events: {
+    "click #new-feed": "visitNew"
+  },
+
   render: function () {
-    console.log("test");
-    this.$ul.empty();
+    this.$el.empty();
+    this.$el.html(this.template());
+    this.$ul = this.$el.find('#feed-list');
 
     this.collection.each(function(feed){
       var indexItemView = new NewsReader.Views.IndexItemViews({
@@ -25,6 +29,10 @@ NewsReader.Views.IndexView = Backbone.View.extend({
     }.bind(this));
 
     return this;
+  },
+
+  visitNew: function(){
+    Backbone.history.navigate( "feeds/new", {trigger:true})
   },
 
   remove: function () {
