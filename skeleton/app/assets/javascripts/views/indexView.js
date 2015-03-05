@@ -11,6 +11,7 @@ NewsReader.Views.IndexView = Backbone.View.extend({
   tagName: "section",
 
   render: function () {
+    console.log("test");
     this.$ul.empty();
 
     this.collection.each(function(feed){
@@ -34,5 +35,4 @@ NewsReader.Views.IndexView = Backbone.View.extend({
 
     this._subviews = [];
   }
-
 });
