@@ -1,0 +1,5 @@
+require_relative './models/user_model.rb'
+require_relative './models/question_model.rb'
+require_relative './models/reply_model.rb'
+require_relative './models/question_follower_model.rb'
+require_relative './models/question_like_model.rb'
