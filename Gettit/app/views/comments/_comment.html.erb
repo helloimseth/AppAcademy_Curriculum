@@ -1,0 +1,10 @@
+<%= comment.content %><br>
+<a href="<%= comment_url(comment) %>">View</a>
+<em><%= time_ago_in_words(comment.created_at) %> ago</em><br><br>
+<% if @comments[comment.id].any? %>
+  <ul>
+    <% @comments[comment.id].each do |child| %>
+        <li><%= render "comments/comment", comment: child %></li>
+    <% end %>
+  </ul>
+<% end %>

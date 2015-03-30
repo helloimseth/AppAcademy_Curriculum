@@ -1,0 +1,29 @@
+<h1>
+  <% if @post.url %><a href="<%= @post.url %>"> <% end %>
+    <%= @post.title %>
+  <% if @post.url %></a> <% end %>
+</h1>
+<%=  %>
+<% if @post.content %>
+    <%= @post.content %>
+<% end %>
+
+<% if is_author? %>
+  <form action="<%= edit_post_url %>" method="get">
+    <button>Edit Post</button>
+  </form>
+<% end %>
+<br><br>
+<h2>Comments</h2>
+<form class="" action="<%=comments_url %>" method="post">
+  Add Comment <br><br>
+  <%= auth_token %>
+  <textarea name="comment[content]" rows="4" cols="30"></textarea>
+  <input type="hidden" name="comment[post_id]" value="<%= @post.id %>">
+  <%= submit_button %>
+</form>
+
+<% @comments[nil].each do |comment| %>
+  <%= render "comments/comment", comment: comment %>
+<% end %>
+<a href="<%= subs_url %>">Back To Subs</a>

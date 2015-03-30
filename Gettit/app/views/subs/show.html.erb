@@ -1,0 +1,30 @@
+<h1><%= @sub.title %></h1>
+<h2><%= @sub.description %></h2>
+
+<form action="<%=new_post_url%>" method="get">
+  <!-- <input type="hidden" name="sub_id" value="<%=@sub.id%>"> Removed for x-posting functionality-->
+  <!--  hidden input sends @sub.id to params hash to be used in PostsController-->
+  <button>Add new post</button>
+</form>
+
+<% if is_moderator? %>
+  <form action="<%= edit_sub_url(@sub) %>" method="get">
+    <button> Edit Sub </button>
+  </form>
+
+  <form action="<%= sub_url(@sub) %>" method="post">
+    <%= auth_token %>
+    <input type="hidden" name="_method" value="delete">
+
+    <button> Delete Sub </button>
+  </form>
+<% end %>
+
+<h2> Posts </h2>
+<table>
+<% @sub.posts.each do |post| %>
+  <tr><td> <a href=" <%= post_url(post) %>"> <%= post.title %></a></td></tr>
+
+  <tr><td><em> Posted <%= time_ago_in_words(post.created_at) %> ago </em></td></tr>
+  <% end %>
+</table>
