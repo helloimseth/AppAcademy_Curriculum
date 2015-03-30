@@ -1,0 +1,15 @@
+<%= render "errors", track: @track %>
+
+<h1>Edit Track</h1>
+<form action="<%= track_url(@track)  %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="put">
+
+  <%= render "form", album: @album  %>
+
+  <%= submit_button %>
+</form>
+
+<form action="<%= track_url(@track) %>" method="get">
+  <button>Cancel</button>
+</form>

@@ -1,0 +1,14 @@
+<% if @user.errors.full_messages.any? %>
+  <div style="width: 250px;
+              padding: 5px;
+              margin-top: 15px;
+              margin-bottom: 15px;
+              background-color: #efe0ef;">
+    Errors:
+    <ul style="margin-top: 5px; margin-bottom: 5px;">
+      <% @user.errors.full_messages.each do |msg| %>
+        <li> <%= msg %> </li>
+      <% end %>
+    </ul>
+  </div
+<% end %>

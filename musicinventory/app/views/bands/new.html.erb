@@ -1,0 +1,10 @@
+<%= render "errors", band: @band %>
+
+<h1>Add Band</h1>
+<form action="<%= bands_url  %>" method="post">
+  <%= auth_token %>
+
+  <%= render "form" %>
+
+  <%= submit_button %>
+</form>

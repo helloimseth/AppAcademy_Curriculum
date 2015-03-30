@@ -1,0 +1,65 @@
+<%= render "errors", track: @track %>
+
+<h1><%= @track.name %></h1>
+<h2><%= @track.album.title %>, <%= @track.band_name %></h2>
+
+<form action="<%= edit_track_url(@track) %>" method="get">
+  <button>Edit Track</button>
+</form>
+
+<form action="<%= track_url(@track) %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="delete">
+  <button>Delete Track</button>
+</form>
+
+<br>
+
+<strong>Information</strong>
+<table>
+  <% [:name, :level].each do |attr| %>
+    <tr>
+      <td> <%= attr.to_s.capitalize.gsub("_", " ") %> </td>
+      <td> <em><%= @track.send(attr)  %></em>
+    </tr>
+  <% end %>
+</table>
+<br>
+<strong>Lyrics</strong>
+<%= ugly_lyrics(@track.lyrics) %>
+
+<form action="<%= album_url(@track.album) %>" method="get">
+  <button>Back</button>
+</form>
+
+<h2>Notes</h2>
+
+<%= render "notes/form", track: @track %>
+
+<table cellpadding="10">
+  <th>Author</th>
+  <th>Note</th>
+  <% @track.notes.each do |note| %>
+    <tr>
+      <td>
+        <%= note.author.email %>
+      </td>
+      <td>
+        <%= note.body %>
+      </td>
+
+      <% if note.author.id == current_user.id %>
+        <td>
+          <form action="<%= note_url(note) %>" method="post">
+            <%= auth_token %>
+            <input type="hidden" name="_method" value="delete">
+            <button>Delete</button>
+          </form>
+        </td>
+      <% end %>
+
+    </tr>
+  <% end %>
+</table>
+
+<br>

@@ -1,0 +1,32 @@
+  <label for="album_title">Title</label><br>
+  <input type="text" name="album[title]" value="<%= @album.title %>">
+
+  <br><br>
+
+  <label for="album_band_id">Band</label><br>
+  <select name="album[band_id]">
+    <option></option>
+    <% Band.all.each do |band| %>
+      <option value="<%= band.id %>"
+        <%= "selected" if @album.band_id == band.id %> >
+        <%= band.name %>
+      </option>
+    <% end %>
+  </select>
+
+  <br><br>
+
+  <label for="album_setting">Type</label><br>
+    <input type="radio" name="album[setting]" value="Studio"
+    <%= "checked" if @album.setting == "Studio" %> >
+    <label for="album_setting">Studio</label>
+  <br>
+    <input type="radio" name="album[setting]" value="Live"
+    <%= "checked" if @album.setting == "Live" %> >
+    <label for="album_setting">Live</label>
+  <br>
+    <input type="radio" name="album[setting]" value="Compilation"
+    <%= "checked" if @album.setting == "Compilation" %> >
+    <label for="album_setting">Compilation</label>
+
+  <br><br>

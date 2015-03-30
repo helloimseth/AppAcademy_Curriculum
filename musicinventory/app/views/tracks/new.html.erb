@@ -1,0 +1,14 @@
+<%= render "errors", track: @track %>
+
+<h1>Add Track</h1>
+<form action="<%= tracks_url  %>" method="post">
+  <%= auth_token %>
+
+  <%= render "form", track: @track  %>
+
+  <%= submit_button %>
+</form>
+
+<form action="<%= album_url(params[:album_id].to_i) %>" method="get">
+  <button>Cancel</button>
+</form>

@@ -1,0 +1,15 @@
+<%= render "errors", album: @album %>
+
+<h1>Edit Album</h1>
+<form action="<%= album_url(@album)  %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="put">
+
+  <%= render "form", album: @album  %>
+
+  <%= submit_button %>
+</form>
+
+<form action="<%= album_url(@album) %>" method="get">
+  <button>Cancel</button>
+</form>
