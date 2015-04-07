@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <title>My Cool Website</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="./carousel.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.17.2/build/cssreset/cssreset-min.css">
+    <link href="./carousel.css" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+<h1 class="header">Carousel</h1>
+<figure class="carousel group">
+  <ul class="items group">
+    <li class="active"><img src="http://placekitten.com/g/200/300" alt="kitten1" ></li>
+    <li><img src="http://placecorgi.com/200/300" alt="kitten1"></li>
+    <li><img src="http://placekitten.com/g/200/300" alt="kitten1"></li>
+    <li><img src="http://placecorgi.com/200/300" alt="kitten1"></li>
+  </ul>
+
+  <button class="slide-right">Prev</button>
+  <button class="slide-left">Next</button>
+
+  <ul class="indicator group">
+    <li class="active"></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+</figure>
+
+
+
+<script>
+  $(function() {
+    $('.carousel').carousel();
+  })
+</script>
+</body>
+</html>

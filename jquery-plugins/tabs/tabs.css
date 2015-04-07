@@ -1,0 +1,23 @@
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.tabs .active {
+  font-weight: bold;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+  transition: opacity .5s linear;
+}
+
+.transitioning {
+  display: block;
+  opacity: 0;
+  transition: opacity .5s linear;
+}

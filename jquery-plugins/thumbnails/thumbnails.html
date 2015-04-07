@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Cool Website</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="./thumbnails.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.17.2/build/cssreset/cssreset-min.css">
+    <link href="./thumbnails.css" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <section class="thumbnails">
+      <figure class="active"></figure>
+
+      <ul class="gutter-images group">
+        <li><img src="http://placekitten.com/g/200/300" alt="kitten1" ></li>
+        <li><img src="http://placecorgi.com/200/300" alt="kitten1"></li>
+        <li><img src="http://placekitten.com/g/200/300" alt="kitten1"></li>
+        <li><img src="http://placecorgi.com/200/300" alt="kitten1"></li>
+        <li><img src="http://placekitten.com/g/200/300" alt="kitten1"></li>
+      </ul>
+      </div>
+    </section>
+    <script>
+      $(function() {
+        $('.thumbnails').thumbnails();
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Cool Website</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="./tabs.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.17.2/build/cssreset/cssreset-min.css">
+    <link href="./tabs.css" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+
+    <ul class='tabs' data-content-tabs=".content-tabs">
+      <li><a href="#pembroke" class="active">Pembroke</a></li>
+      <li><a href="#dogface">Dogface</a></li>
+      <li><a href="#snoopy">Snoopy</a></li>
+    </ul>
+
+    <content class="content-tabs">
+      <section class="tab-pane active" id="pembroke">
+        <p>
+          Corgis are short and pretty cute and I'm pretty sure HM Queen Elizabeth II
+          has a couple of'em.
+        </p>
+      </section>
+      <section class="tab-pane" id="dogface">
+        <p>
+          Is the nickname Seth calls his roommate's dog, who is a bulldog and quite
+          fat.
+        </p>
+      </section>
+      <section class="tab-pane" id="snoopy">
+        <p>
+          Is a great a detective. Enjoys sleeping on top of dog houses.
+          Drawn very near Seth's hometown of San Mateo, CA.
+        </p>
+      </section>
+    </content>
+
+    <script>
+      $(function() {
+        $('.tabs').tabs();
+        console.log("test");
+      })
+    </script>
+  </body>
+</html>

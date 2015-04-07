@@ -1,0 +1,112 @@
+body{
+  font-family: sans-serif;
+  text-align: center;
+}
+.header{
+  padding: 25px;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+button {
+  background: transparent;
+  border:none;
+  outline: none;
+  box-sizing: none;
+  -webkit-appearance: none;
+  padding: 8px 5px 0px;
+  color: white;
+}
+
+button:hover {
+  color: #ED2578;
+}
+
+button:active{
+  padding:10px 5px;
+}
+
+.carousel {
+  position: relative;
+  margin: 25px auto;
+  height:320px;
+  width: 200px;
+  border: 10px solid green;
+  background: green;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.group:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+/*items*/
+
+.items {
+  width: 800px;
+  height: 300px;
+  display:block;
+  overflow: hidden;
+}
+
+.items > li {
+  width: 200px;
+  display: block;
+  float: left;
+}
+
+.items > li.active {
+  position: absolute;
+  left: 0%;
+  transition: left .25s linear;
+}
+
+.items > li:not(.active) {
+  display:none;
+}
+
+.items > li.active.right {
+  position: absolute;
+  left: 100%;
+}
+
+.items > li.active.left {
+  position: absolute;
+  left: -100%;
+}
+
+
+/*Buttons*/
+
+.slide-left {
+  float: right;
+}
+
+.slide-right {
+  float: left;
+}
+
+
+
+.indicator {
+  width: 80px;
+  margin: auto;
+  padding-top: 10px;
+}
+
+.indicator > li {
+  float: left;
+  height: 10px;
+  width: 10px;
+
+  border-radius: 10px;
+  background: white;
+  margin: 0 5px;
+}
+
+.indicator > li.active {
+  background: #aaaadd;
+}
